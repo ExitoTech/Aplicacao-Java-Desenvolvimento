@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.sql.RowSet;
 
 
@@ -12,7 +13,7 @@ public class ConexaoDAO {
 
     private String url = "jdbc:mysql://localhost:3306/bdExitoTech";
     private String user = "root";
-    private String password = "vini@123";
+    private String password = "V1k1ng1!";
     private java.sql.Connection con = null;
         
     public void conexaoMysql(){
@@ -28,22 +29,32 @@ public class ConexaoDAO {
 
     }
     
-        public void selecionarTudo(String query){
+        public void entrar(String email,String senha){
+            
+            String query = "SELECT * FROM empresa WHERE emailempresa = '" + email + "' AND senhaempresa = '" + senha + "' ;";
+            
         try {
             ResultSet resultSet = con.createStatement().executeQuery(query);
             while(resultSet.next()){
-                System.out.println("Nome da empresa:" + resultSet.getString("Nome"));
+                System.out.println("Entrando com usuario " + resultSet.getString("Nome"));
             }
         } catch (SQLException e) {
-            System.out.println("Erro na classe 'conexãoDAO', metodo 'selecionarTudo'. " + e.getMessage());
+            System.out.println("Erro na classe 'conexãoDAO', metodo 'entrar'. " + e.getMessage());
         }
     }
 
-        public  void Insert(String query){
+        public  void Insert(String nome,String Cnpj,String email,String senha,String porte,String Logradouro,String uf,String CEP){
+            
+            String query = String.format(" INSERT INTO empresa (nome,cnpj,emailempresa,senhaempresa,porteempresa,logradouro,uf,cep)"
+                    + "Values ('%s','%s','%s','%s','%s','%s','%s','%s');", nome,Cnpj,email,senha,porte,Logradouro,uf,CEP);
+            
         try {
-            RowSet resultSet = (RowSet) con.createStatement().executeQuery(query);
-            while(resultSet.next()){
-                System.out.println("Inserir na empresa:" + resultSet.getString("Nome"));
+            
+            Statement st = con.createStatement();
+            int m  = st.executeUpdate(query);
+            
+            if(m == 1){
+                System.out.println("Inserindo na tabela empresa:" +  query);
             }
         } catch (SQLException e) {
             System.out.println("Erro na classe 'conexãoDAO', metodo 'Insert'. " + e.getMessage());

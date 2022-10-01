@@ -112,11 +112,9 @@ public class Login extends javax.swing.JFrame {
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
         ConexaoDAO conexao = new ConexaoDAO();
         conexao.conexaoMysql();
-        conexao.selecionarTudo("SELECT * FROM Empresa");
-        conexao.Insert("Insert into empresa"
-                + "(Nome,Cnpj,EmailEmpresa,SenhaEmpresa,PorteEmpresa,Logradouro,UF,CEP)"
-                + "VALUES("
-                + "'x','x','x','x','x','x','x','x');");
+        conexao.Insert("BigShuu Consultoria","392.2131.3123.123","shuu.s8u@gmail.com","1234","máximo","Border of Heavens, 521","AfterLife","1332-12321");
+        conexao.entrar("shuu.s8u@gmail.com", "1234");
+      
         new Dashboard().setVisible(rootPaneCheckingEnabled);
         
     }//GEN-LAST:event_buttonEntrarActionPerformed
