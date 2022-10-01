@@ -1,4 +1,5 @@
 package com.mycompany.exitotech.jar.gui;
+import com.mycompany.exitotech.jar.conexaojdbc.ConexaoDAO;
 
 public class Login extends javax.swing.JFrame {
     
@@ -109,7 +110,15 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
+        ConexaoDAO conexao = new ConexaoDAO();
+        conexao.conexaoMysql();
+        conexao.selecionarTudo("SELECT * FROM Empresa");
+        conexao.Insert("Insert into empresa"
+                + "(Nome,Cnpj,EmailEmpresa,SenhaEmpresa,PorteEmpresa,Logradouro,UF,CEP)"
+                + "VALUES("
+                + "'x','x','x','x','x','x','x','x');");
         new Dashboard().setVisible(rootPaneCheckingEnabled);
+        
     }//GEN-LAST:event_buttonEntrarActionPerformed
 
     private void textUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textUsuario1ActionPerformed
