@@ -1,5 +1,6 @@
 package com.mycompany.exitotech.jar.gui;
 import com.mycompany.exitotech.jar.conexaojdbc.ConexaoDAO;
+import com.mycompany.exitotech.jar.conexaojdbc.SelectAll;
 
 public class Login extends javax.swing.JFrame {
     
@@ -112,7 +113,9 @@ public class Login extends javax.swing.JFrame {
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
         ConexaoDAO conexao = new ConexaoDAO();
         conexao.conexaoMysql();
-        new Dashboard().setVisible(rootPaneCheckingEnabled);
+        SelectAll nomeEmpresas = new SelectAll();
+        nomeEmpresas.SelecionarEmpresas();
+//        new Dashboard().setVisible(rootPaneCheckingEnabled);
         
     }//GEN-LAST:event_buttonEntrarActionPerformed
 
