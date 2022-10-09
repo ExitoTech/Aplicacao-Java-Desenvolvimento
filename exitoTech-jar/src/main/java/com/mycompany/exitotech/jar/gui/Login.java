@@ -111,8 +111,6 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
-        ConexaoDAO conexao = new ConexaoDAO();
-        conexao.conexaoMysql();
         SelectAll nomeEmpresas = new SelectAll();
         nomeEmpresas.SelecionarEmpresas();
 //        new Dashboard().setVisible(rootPaneCheckingEnabled);

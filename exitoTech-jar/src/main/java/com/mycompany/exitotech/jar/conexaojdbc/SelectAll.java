@@ -13,6 +13,7 @@ public class SelectAll {
 
     public void SelecionarEmpresas() {
         ConexaoDAO connection = new ConexaoDAO();
+        connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
         List<Empresa> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Empresa.class));

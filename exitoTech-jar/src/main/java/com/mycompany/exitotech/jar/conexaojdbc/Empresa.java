@@ -87,7 +87,7 @@ public class Empresa {
     @Override
     public String toString() {
         return "Empresa{" + "id_empresa=" + id_empresa + ", Nome=" + Nome + ", Cnpj=" + Cnpj + ", EmailEmpresa=" + EmailEmpresa + ", SenhaEmpresa=" + SenhaEmpresa + ", PorteEmpresa=" + PorteEmpresa + ", Logradouro=" + Logradouro + ", UF=" + UF + ", CEP=" + CEP + '}';
-    }
+}
     
     
     
