@@ -77,7 +77,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(textLogin)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -104,7 +104,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(buttonEsqueceuSenha)
                 .addGap(50, 50, 50)
                 .addComponent(buttonEntrar)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -113,7 +113,7 @@ public class Login extends javax.swing.JFrame {
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
         SelectAll nomeEmpresas = new SelectAll();
         nomeEmpresas.SelecionarEmpresas();
-//        new Dashboard().setVisible(rootPaneCheckingEnabled);
+        new Dashboard().setVisible(rootPaneCheckingEnabled);
         
     }//GEN-LAST:event_buttonEntrarActionPerformed
 
