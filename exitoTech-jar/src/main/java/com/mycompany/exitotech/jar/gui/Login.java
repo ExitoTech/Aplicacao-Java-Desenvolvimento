@@ -1,6 +1,6 @@
 package com.mycompany.exitotech.jar.gui;
-import com.mycompany.exitotech.jar.conexaojdbc.ConexaoDAO;
-import com.mycompany.exitotech.jar.conexaojdbc.SelectAll;
+import com.mycompany.exitotech.jar.database.ConexaoDAO;
+import com.mycompany.exitotech.jar.database.SelectFromDatabase;
 
 public class Login extends javax.swing.JFrame {
     
@@ -111,8 +111,14 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
-        SelectAll nomeEmpresas = new SelectAll();
+        SelectFromDatabase nomeEmpresas = new SelectFromDatabase();
         nomeEmpresas.SelecionarEmpresas();
+        
+        
+        
+        nomeEmpresas.capturarDados();
+        
+        
         new Dashboard().setVisible(rootPaneCheckingEnabled);
         
     }//GEN-LAST:event_buttonEntrarActionPerformed

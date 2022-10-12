@@ -1,12 +1,11 @@
+com\mycompany\exitotech\jar\gui\Login$1.class
+com\mycompany\exitotech\graficos\GraficoProcessos.class
 com\mycompany\exitotech\jar\gui\Dashboard$3.class
 com\mycompany\exitotech\jar\gui\Login$3.class
 com\mycompany\exitotech\jar\gui\Login$2.class
 com\mycompany\exitotech\jar\gui\Dashboard$2.class
-com\mycompany\exitotech\jar\conexaojdbc\ConexaoDAO.class
 com\mycompany\exitotech\jar\gui\Login.class
-com\mycompany\exitotech\jar\gui\Login$1.class
 com\mycompany\exitotech\graficos\GraficoDisco.class
 com\mycompany\exitotech\jar\gui\Dashboard$1.class
-com\mycompany\exitotech\graficos\GraficoProcessos.class
 com\mycompany\exitotech\jar\gui\Dashboard.class
 com\mycompany\exitotech\graficos\GraficoMemoria.class
