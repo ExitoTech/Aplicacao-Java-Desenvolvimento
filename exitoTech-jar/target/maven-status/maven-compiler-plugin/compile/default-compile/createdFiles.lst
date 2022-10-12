@@ -12,4 +12,5 @@ com\mycompany\exitotech\jar\gui\Login.class
 com\mycompany\exitotech\graficos\GraficoDisco.class
 com\mycompany\exitotech\jar\gui\Dashboard$1.class
 com\mycompany\exitotech\jar\gui\Dashboard.class
+.netbeans_automatic_build
 com\mycompany\exitotech\graficos\GraficoMemoria.class

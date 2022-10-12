@@ -1,6 +1,7 @@
 package com.mycompany.exitotech.jar.database;
 
 import com.github.britooo.looca.api.core.Looca;
+import com.mycompany.exitotech.jar.gui.Dashboard;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,15 +22,20 @@ public class SelectFromDatabase {
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
+        Integer incremntoValidacao = 0;
+
         List<Empresa> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Empresa.class));
 
         for (Empresa itemEmpresa : listUsers) {
             if (itemEmpresa.getEmailEmpresa().equals(email) && itemEmpresa.getSenhaEmpresa().equals(senha)) {
-                JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
+                incremntoValidacao++;
             }
-            else{
-                JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
-            }
+        }
+        if (incremntoValidacao > 0) {
+            JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
+            new Dashboard().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
         }
     }
 
