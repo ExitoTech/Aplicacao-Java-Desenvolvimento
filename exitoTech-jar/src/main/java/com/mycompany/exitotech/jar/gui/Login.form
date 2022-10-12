@@ -40,7 +40,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="41" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="textUsuario1" alignment="1" min="-2" pref="294" max="-2" attributes="0"/>
+                  <Component id="textSenha" alignment="1" min="-2" pref="294" max="-2" attributes="0"/>
                   <Component id="buttonEsqueceuSenha" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
@@ -64,7 +64,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="textUsuario1" min="-2" pref="26" max="-2" attributes="0"/>
+              <Component id="textSenha" min="-2" pref="26" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Component id="buttonEsqueceuSenha" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
@@ -128,7 +128,7 @@
         <Property name="iconTextGap" type="int" value="14"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="textUsuario1">
+    <Component class="javax.swing.JTextField" name="textSenha">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="6" red="0" type="rgb"/>
@@ -141,7 +141,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textUsuario1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textSenhaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

@@ -1,6 +1,7 @@
 package com.mycompany.exitotech.jar.gui;
 import com.mycompany.exitotech.jar.database.ConexaoDAO;
 import com.mycompany.exitotech.jar.database.SelectFromDatabase;
+import javax.swing.JTextField;
 
 public class Login extends javax.swing.JFrame {
     
@@ -16,7 +17,7 @@ public class Login extends javax.swing.JFrame {
         buttonEntrar = new javax.swing.JButton();
         textUsuario = new javax.swing.JTextField();
         textLogin = new javax.swing.JLabel();
-        textUsuario1 = new javax.swing.JTextField();
+        textSenha = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -51,12 +52,12 @@ public class Login extends javax.swing.JFrame {
         textLogin.setText("Login");
         textLogin.setIconTextGap(14);
 
-        textUsuario1.setBackground(new java.awt.Color(0, 6, 51));
-        textUsuario1.setForeground(new java.awt.Color(153, 153, 153));
-        textUsuario1.setCaretColor(new java.awt.Color(0, 6, 51));
-        textUsuario1.addActionListener(new java.awt.event.ActionListener() {
+        textSenha.setBackground(new java.awt.Color(0, 6, 51));
+        textSenha.setForeground(new java.awt.Color(153, 153, 153));
+        textSenha.setCaretColor(new java.awt.Color(0, 6, 51));
+        textSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textUsuario1ActionPerformed(evt);
+                textSenhaActionPerformed(evt);
             }
         });
 
@@ -79,7 +80,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textUsuario1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonEsqueceuSenha, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2)
@@ -99,7 +100,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addComponent(buttonEsqueceuSenha)
                 .addGap(50, 50, 50)
@@ -110,19 +111,25 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+ 
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
+
+        String usuario = textUsuario.getText();
+        String senha = textSenha.getText();
+        
         SelectFromDatabase nomeEmpresas = new SelectFromDatabase();
         SelectFromDatabase nomeEmpresasTeste = new SelectFromDatabase();
         nomeEmpresas.SelecionarEmpresas();    
-        nomeEmpresasTeste.validarLogin("Viny@123", "1234");
-        //nomeEmpresas.capturarDados();        
-        new Dashboard().setVisible(rootPaneCheckingEnabled);
+        nomeEmpresas.validarLogin(usuario, senha);
+        
+        
+        
         
     }//GEN-LAST:event_buttonEntrarActionPerformed
 
-    private void textUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textUsuario1ActionPerformed
+    private void textSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSenhaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textUsuario1ActionPerformed
+    }//GEN-LAST:event_textSenhaActionPerformed
 
     private void textUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textUsuarioActionPerformed
         // TODO add your handling code here:
@@ -157,7 +164,13 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel textLogin;
+    private javax.swing.JTextField textSenha;
     private javax.swing.JTextField textUsuario;
-    private javax.swing.JTextField textUsuario1;
     // End of variables declaration//GEN-END:variables
+
+    
+
+    
+
+    
 }
