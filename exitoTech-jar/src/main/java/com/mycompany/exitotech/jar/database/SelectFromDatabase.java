@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Timer;
 import javax.sql.RowSet;
+import javax.swing.JOptionPane;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -14,6 +15,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author Vini
  */
 public class SelectFromDatabase {
+
+    public void validarLogin(String email, String senha) {
+        ConexaoDAO connection = new ConexaoDAO();
+        connection.conexaoMysql();
+        JdbcTemplate con = connection.getConnection();
+
+        List<Empresa> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Empresa.class));
+
+        for (Empresa itemEmpresa : listUsers) {
+            if (itemEmpresa.getEmailEmpresa().equals(email) && itemEmpresa.getSenhaEmpresa().equals(senha)) {
+                JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
+            }
+        }
+    }
 
     public void SelecionarEmpresas() {
         ConexaoDAO connection = new ConexaoDAO();
@@ -65,10 +83,10 @@ public class SelectFromDatabase {
         JdbcTemplate con = connection.getConnection();
 
         String query = String.format("Insert into historico_de_dados(uso_CPU,uso_Ram,fk_maquina)"
-                + "Values(%.0f,%d,10000);", usoCpu,porcentagemUsoMemoria);
-        
+                + "Values(%.0f,%d,10000);", usoCpu, porcentagemUsoMemoria);
+
         con.execute(query);
-        
+
         capturarDados();
 
     }
