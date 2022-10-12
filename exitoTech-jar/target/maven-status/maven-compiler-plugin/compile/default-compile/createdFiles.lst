@@ -1,7 +1,11 @@
+com\mycompany\exitotech\jar\database\SelectFromDatabase.class
+com\mycompany\exitotech\slack\app\SlackApp.class
 com\mycompany\exitotech\jar\gui\Login$1.class
+com\mycompany\exitotech\jar\database\ConexaoDAO.class
 com\mycompany\exitotech\graficos\GraficoProcessos.class
 com\mycompany\exitotech\jar\gui\Dashboard$3.class
 com\mycompany\exitotech\jar\gui\Login$3.class
+com\mycompany\exitotech\jar\database\Empresa.class
 com\mycompany\exitotech\jar\gui\Login$2.class
 com\mycompany\exitotech\jar\gui\Dashboard$2.class
 com\mycompany\exitotech\jar\gui\Login.class
