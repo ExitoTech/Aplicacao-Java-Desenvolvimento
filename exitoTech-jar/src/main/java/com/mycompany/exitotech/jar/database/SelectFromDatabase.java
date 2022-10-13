@@ -38,6 +38,29 @@ public class SelectFromDatabase {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
         }
     }
+    
+    public void validarMaquina(String idNumero){
+        Integer id = Integer.parseInt(idNumero);
+        
+        ConexaoDAO connection = new ConexaoDAO();
+        connection.conexaoMysql();
+        JdbcTemplate con = connection.getConnection();
+        
+        Boolean existeMaquina = false;
+        List<Maquina> listMaquinas = con.query("SELECT * FROM Maquina;", new BeanPropertyRowMapper(Maquina.class));
+        
+        for (int i= 0; i < listMaquinas.size(); i++){
+            if(id.equals(listMaquinas.get(i).getIdMaquina())){
+                existeMaquina = true;
+            }
+        }
+        
+        if(existeMaquina == true){
+            JOptionPane.showMessageDialog(null, "Máquina confirmada!");
+        }else{
+            JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
+        }
+    }
 
     public void SelecionarEmpresas() {
         ConexaoDAO connection = new ConexaoDAO();
