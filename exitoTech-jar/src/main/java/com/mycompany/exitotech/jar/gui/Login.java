@@ -2,6 +2,11 @@ package com.mycompany.exitotech.jar.gui;
 import com.mycompany.exitotech.jar.database.ConexaoDAO;
 import com.mycompany.exitotech.jar.database.SelectFromDatabase;
 import javax.swing.JTextField;
+import com.mycompany.exitotech.recuperar.senha.OpenLink;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
     
@@ -28,6 +33,20 @@ public class Login extends javax.swing.JFrame {
         buttonEsqueceuSenha.setBackground(new java.awt.Color(54, 39, 217));
         buttonEsqueceuSenha.setForeground(new java.awt.Color(54, 39, 217));
         buttonEsqueceuSenha.setText("Esqueceu sua senha?");
+        buttonEsqueceuSenha.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                buttonEsqueceuSenhaAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        buttonEsqueceuSenha.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonEsqueceuSenhaMouseClicked(evt);
+            }
+        });
 
         buttonEntrar.setBackground(new java.awt.Color(0, 6, 51));
         buttonEntrar.setForeground(new java.awt.Color(255, 255, 255));
@@ -134,6 +153,20 @@ public class Login extends javax.swing.JFrame {
     private void textUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textUsuarioActionPerformed
+
+    private void buttonEsqueceuSenhaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_buttonEsqueceuSenhaAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonEsqueceuSenhaAncestorAdded
+
+    private void buttonEsqueceuSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonEsqueceuSenhaMouseClicked
+        // TODO add your handling code here:
+        OpenLink abrirLink = new OpenLink("www.youtube.com");
+        try {
+            abrirLink.AbrirGuiaRecuperacao();
+        } catch (IOException ex) {
+            JOptionPane.showConfirmDialog(null, "Erro ao abir link..");
+        }
+    }//GEN-LAST:event_buttonEsqueceuSenhaMouseClicked
     
     public static void main(String args[]) {
         try {

@@ -85,6 +85,10 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Esqueceu sua senha?"/>
       </Properties>
+      <Events>
+        <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="buttonEsqueceuSenhaAncestorAdded"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="buttonEsqueceuSenhaMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonEntrar">
       <Properties>
