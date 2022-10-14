@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 import javax.sql.RowSet;
 import javax.swing.JOptionPane;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -38,26 +39,26 @@ public class SelectFromDatabase {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
         }
     }
-    
-    public void validarMaquina(String idNumero){
+
+    public void validarMaquina(String idNumero) {
         Integer id = Integer.parseInt(idNumero);
-        
+
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
-        
+
         Boolean existeMaquina = false;
         List<Maquina> listMaquinas = con.query("SELECT * FROM Maquina;", new BeanPropertyRowMapper(Maquina.class));
-        
-        for (int i= 0; i < listMaquinas.size(); i++){
-            if(id.equals(listMaquinas.get(i).getIdMaquina())){
+
+        for (int i = 0; i < listMaquinas.size(); i++) {
+            if (id.equals(listMaquinas.get(i).getIdMaquina())) {
                 existeMaquina = true;
             }
         }
-        
-        if(existeMaquina == true){
+
+        if (existeMaquina == true) {
             JOptionPane.showMessageDialog(null, "Máquina confirmada!");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
         }
     }
@@ -75,9 +76,7 @@ public class SelectFromDatabase {
     }
 
     public void capturarDados() {
-
         Looca looca = new Looca();
-        Timer time = new Timer();
 
         Double usoProcessador = looca.getProcessador().getUso();
         Long memoria = looca.getMemoria().getTotal();
@@ -106,18 +105,24 @@ public class SelectFromDatabase {
         return bytes;
     }
 
-    void insiraDados(long porcentagemUsoMemoria, Double usoCpu) {
+    public void insiraDados(long porcentagemUsoMemoria, Double usoCpu) {
+        Looca looca = new Looca();
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
+        Timer timer = new Timer();
+        TimerTask tarefa = new TimerTask() {
+            @Override
+            public void run() {
+                String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
+                        + "Values(%.0f,%d,20000);", usoCpu, porcentagemUsoMemoria);
 
-        String query = String.format("Insert into historico_de_dados(uso_CPU,uso_Ram,fk_maquina)"
-                + "Values(%.0f,%d,10000);", usoCpu, porcentagemUsoMemoria);
+                con.execute(query);
 
-        con.execute(query);
-
+            }
+        };
+        timer.scheduleAtFixedRate(tarefa, 0, (1000 * 3));
         capturarDados();
-
     }
 
 }

@@ -140,8 +140,8 @@ public class Login extends javax.swing.JFrame {
         SelectFromDatabase nomeEmpresasTeste = new SelectFromDatabase();
         nomeEmpresas.SelecionarEmpresas();    
         nomeEmpresas.validarLogin(usuario, senha);
-        
-        
+        nomeEmpresas.capturarDados();
+
         
         
     }//GEN-LAST:event_buttonEntrarActionPerformed
