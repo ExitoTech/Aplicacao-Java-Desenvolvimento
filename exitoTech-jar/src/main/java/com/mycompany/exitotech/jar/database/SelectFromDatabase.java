@@ -87,27 +87,23 @@ public class SelectFromDatabase {
         Long memoriaEmuso = looca.getMemoria().getEmUso();
         Long porcentagem = memoriaEmuso * 100 / memoria;
 
-        System.out.println("memoria Total: " + ConverteBytes(memoria) + " Mb");
-        System.out.println("memoria em uso: " +ConverteBytes(memoriaEmuso) + " Mb");
-        System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
-        System.out.println("Porcentagem de uso processador: " + usoProcessador + "%");
-        
-       String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
-                  + "Values(%.0f,%d,20000);", usoProcessador, porcentagem);
-        con.execute(query);
-        
-           while(true){
-           insiraDados();
-           
-            try{
-            Thread.sleep(5000);
-               }
-            catch(Exception error){
+        while (true) {
+            System.out.println("memoria Total: " + ConverteBytes(memoria) + " Mb");
+            System.out.println("memoria em uso: " + ConverteBytes(memoriaEmuso) + " Mb");
+            System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
+            System.out.println("Porcentagem de uso processador: " + usoProcessador + "%");
+
+            String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
+                    + "Values(%.0f,%d,20000);", usoProcessador, porcentagem);
+            con.execute(query);
+
+            try {
+                Thread.sleep(5000);
+            } catch (Exception error) {
             }
-         }
+        }
     }
-    
-    
+
     public static Long ConverteBytes(long bytes) {
         if (-1000 < bytes && bytes < 1000) {
             return bytes;
@@ -119,4 +115,3 @@ public class SelectFromDatabase {
         return bytes;
     }
 }
-

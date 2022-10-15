@@ -1,7 +1,6 @@
 package com.mycompany.exitotech.jar.gui;
 import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.exitotech.graficos.GraficoMemoria;
-import com.mycompany.exitotech.graficos.GraficoDisco;
 import com.mycompany.exitotech.graficos.GraficoProcessos;
 public class Dashboard extends javax.swing.JFrame {
 
@@ -16,10 +15,12 @@ public class Dashboard extends javax.swing.JFrame {
         GerarGraficoPizza = new javax.swing.JButton();
         ListarHardware = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         GerarGraficoPizza.setBackground(new java.awt.Color(0, 6, 51));
+        GerarGraficoPizza.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         GerarGraficoPizza.setForeground(new java.awt.Color(255, 255, 255));
         GerarGraficoPizza.setText("USO DE MEMORIA");
         GerarGraficoPizza.addActionListener(new java.awt.event.ActionListener() {
@@ -29,6 +30,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         ListarHardware.setBackground(new java.awt.Color(0, 6, 51));
+        ListarHardware.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         ListarHardware.setForeground(new java.awt.Color(255, 255, 255));
         ListarHardware.setText("LISTAR HARDWARE");
         ListarHardware.addActionListener(new java.awt.event.ActionListener() {
@@ -38,31 +40,39 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jButton2.setBackground(new java.awt.Color(0, 6, 51));
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("SAIR");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img-logo-jar.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(GerarGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ListarHardware, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 133, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(GerarGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ListarHardware, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(GerarGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(ListarHardware, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addGap(31, 31, 31)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(GerarGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ListarHardware, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         pack();
@@ -71,9 +81,6 @@ public class Dashboard extends javax.swing.JFrame {
     private void GerarGraficoPizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerarGraficoPizzaActionPerformed
        GraficoMemoria graficoMemoria = new GraficoMemoria();
         graficoMemoria.criarGraficoMemoria();
-        
-        GraficoDisco graficoDisco = new GraficoDisco();
-        graficoDisco.criarGraficoDisco();
         
         GraficoProcessos graficoProcessos = new GraficoProcessos();
         graficoProcessos.criarGraficoProcessos();
@@ -123,5 +130,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton GerarGraficoPizza;
     private javax.swing.JButton ListarHardware;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
