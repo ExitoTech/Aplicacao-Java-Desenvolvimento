@@ -25,16 +25,17 @@ public class SelectFromDatabase {
 
         Integer incremntoValidacao = 0;
 
-        List<Empresa> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Empresa.class));
+        List<Funcionario> listUsers = con.query("SELECT * FROM funcionario;", new BeanPropertyRowMapper(Funcionario.class));
 
-        for (Empresa itemEmpresa : listUsers) {
-            if (itemEmpresa.getEmailEmpresa().equals(email) && itemEmpresa.getSenhaEmpresa().equals(senha)) {
+        for (Funcionario itemFuncionario : listUsers) {
+            if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
                 incremntoValidacao++;
             }
         }
         if (incremntoValidacao > 0) {
             JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
             new Dashboard().setVisible(true);
+            insiraDados();
         } else {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
         }
@@ -68,32 +69,45 @@ public class SelectFromDatabase {
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
-        List<Empresa> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Empresa.class));
-        for (Empresa pokemon : listUsers) {
+        List<Funcionario> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Funcionario.class));
+        for (Funcionario pokemon : listUsers) {
             System.out.println(listUsers);
         }
 
     }
 
-    public void capturarDados() {
+    public void insiraDados() {
         Looca looca = new Looca();
+        ConexaoDAO connection = new ConexaoDAO();
+        connection.conexaoMysql();
+        JdbcTemplate con = connection.getConnection();
 
         Double usoProcessador = looca.getProcessador().getUso();
         Long memoria = looca.getMemoria().getTotal();
         Long memoriaEmuso = looca.getMemoria().getEmUso();
         Long porcentagem = memoriaEmuso * 100 / memoria;
 
-        System.out.println(String.format("Uso teorico %.2f", looca.getProcessador().getUso()));
-        System.out.println(String.format("memoria %d", memoria));
-        System.out.println("memoria em uso " + memoriaEmuso);
-        System.out.println("Eu acho que dá certo");
-        System.out.println(ConverteBytes(memoria));
-        System.out.println(ConverteBytes(memoriaEmuso));
-        System.out.println("Porcentagem" + porcentagem);
-
-        insiraDados(porcentagem, usoProcessador);
+        System.out.println("memoria Total: " + ConverteBytes(memoria) + " Mb");
+        System.out.println("memoria em uso: " +ConverteBytes(memoriaEmuso) + " Mb");
+        System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
+        System.out.println("Porcentagem de uso processador: " + usoProcessador + "%");
+        
+       String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
+                  + "Values(%.0f,%d,20000);", usoProcessador, porcentagem);
+        con.execute(query);
+        
+           while(true){
+           insiraDados();
+           
+            try{
+            Thread.sleep(5000);
+               }
+            catch(Exception error){
+            }
+         }
     }
-
+    
+    
     public static Long ConverteBytes(long bytes) {
         if (-1000 < bytes && bytes < 1000) {
             return bytes;
@@ -104,25 +118,5 @@ public class SelectFromDatabase {
         }
         return bytes;
     }
-
-    public void insiraDados(long porcentagemUsoMemoria, Double usoCpu) {
-        Looca looca = new Looca();
-        ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysql();
-        JdbcTemplate con = connection.getConnection();
-        Timer timer = new Timer();
-        TimerTask tarefa = new TimerTask() {
-            @Override
-            public void run() {
-                String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
-                        + "Values(%.0f,%d,20000);", usoCpu, porcentagemUsoMemoria);
-
-                con.execute(query);
-
-            }
-        };
-        timer.scheduleAtFixedRate(tarefa, 0, (1000 * 3));
-        capturarDados();
-    }
-
 }
+

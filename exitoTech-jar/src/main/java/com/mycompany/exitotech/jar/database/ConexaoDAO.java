@@ -15,7 +15,7 @@ public class ConexaoDAO {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/exitoTech");
         dataSource.setUsername("root");
-        dataSource.setPassword("vini@123");
+        dataSource.setPassword("V1k1ng1!");
         System.out.println("Conectado!");
 
         connection = new JdbcTemplate(dataSource);
