@@ -77,31 +77,38 @@ public class SelectFromDatabase {
     }
 
     public void insiraDados() {
+        
         Looca looca = new Looca();
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
+        
+        Timer timer = new Timer();
+        TimerTask tarefa = new TimerTask() {
+            @Override
+            public void run() {
 
-        Double usoProcessador = looca.getProcessador().getUso();
-        Long memoria = looca.getMemoria().getTotal();
-        Long memoriaEmuso = looca.getMemoria().getEmUso();
-        Long porcentagem = memoriaEmuso * 100 / memoria;
+                Double usoProcessador = looca.getProcessador().getUso();
+                Long memoria = looca.getMemoria().getTotal();
+                Long memoriaEmuso = looca.getMemoria().getEmUso();
+                Long porcentagem = memoriaEmuso * 100 / memoria;
+                String simboloPCT = "%";
 
-        while (true) {
-            System.out.println("memoria Total: " + ConverteBytes(memoria) + " Mb");
-            System.out.println("memoria em uso: " + ConverteBytes(memoriaEmuso) + " Mb");
-            System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
-            System.out.println("Porcentagem de uso processador: " + usoProcessador + "%");
+                System.out.println("------------------------------------------------");
+                System.out.println("memoria Total: " + ConverteBytes(memoria) + " Mb");
+                System.out.println("memoria em uso: " + ConverteBytes(memoriaEmuso) + " Mb");
+                System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
+                System.out.println(String.format("Porcentagem de uso processador: %.2f%s " , usoProcessador,simboloPCT));
+                System.out.println("------------------------------------------------");
 
-            String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
-                    + "Values(%.0f,%d,20000);", usoProcessador, porcentagem);
-            con.execute(query);
+                String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
+                        + "Values(%.0f,%d,20000);", usoProcessador, porcentagem);
+                con.execute(query);
 
-            try {
-                Thread.sleep(5000);
-            } catch (Exception error) {
             }
-        }
+        };
+        timer.scheduleAtFixedRate(tarefa, 0, 5000 );
+
     }
 
     public static Long ConverteBytes(long bytes) {
