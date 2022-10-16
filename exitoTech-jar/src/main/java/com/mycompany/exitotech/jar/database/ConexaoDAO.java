@@ -11,14 +11,18 @@ public class ConexaoDAO {
     public void conexaoMysql() {
         BasicDataSource dataSource = new BasicDataSource();
 
-        System.out.println("Conectando..");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/exitoTech");
-        dataSource.setUsername("root");
-        dataSource.setPassword("V1k1ng1!");
-        System.out.println("Conectado!");
+        //Conexao Local
+        //dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        //dataSource.setUrl("jdbc:mysql://localhost:3306/exitoTech");
+        //dataSource.setUsername("root");
+        //dataSource.setPassword("vini@123");
+        System.out.println("conectando..");
+        //Conexão Azure
+        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        dataSource.setUrl("jdbc:sqlserver://srvexitotech.database.windows.net/bdExitoTech");
 
         connection = new JdbcTemplate(dataSource);
+        System.out.println("conectado!");
     }
 
     public JdbcTemplate getConnection() {
