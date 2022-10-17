@@ -12,10 +12,10 @@ public class ConexaoDAO {
         BasicDataSource dataSource = new BasicDataSource();
 
         System.out.println("Conectando..");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/exitoTech");
-        dataSource.setUsername("root");
-        dataSource.setPassword("V1k1ng1!");
+        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        dataSource.setUrl("jdbc:sqlserver://srvexitotech.database.windows.net;database=bdExitoTech");
+        dataSource.setUsername("adminExitoTech");
+        dataSource.setPassword("#Gfgrupo2");
         System.out.println("Conectado!");
 
         connection = new JdbcTemplate(dataSource);

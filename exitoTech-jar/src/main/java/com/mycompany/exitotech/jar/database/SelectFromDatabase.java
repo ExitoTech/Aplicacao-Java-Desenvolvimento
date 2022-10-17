@@ -102,7 +102,7 @@ public class SelectFromDatabase {
                 System.out.println("------------------------------------------------");
 
                 String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
-                        + "Values(%.0f,%d,20000);", usoProcessador, porcentagem);
+                        + "Values(%.0f,%d,20001);", usoProcessador, porcentagem);
                 con.execute(query);
 
             }
