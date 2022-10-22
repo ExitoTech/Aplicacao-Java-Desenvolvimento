@@ -89,9 +89,9 @@ public class HomeFuncionario extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(197, 197, 197)
+                .addGap(183, 183, 183)
                 .addComponent(lb1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(26, 26, 26)
                 .addComponent(lb2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -105,6 +105,8 @@ public class HomeFuncionario extends javax.swing.JFrame {
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
+        btnInicio.setBackground(new java.awt.Color(0, 6, 51));
+        btnInicio.setForeground(new java.awt.Color(245, 245, 245));
         btnInicio.setText("Inicio Jornada");
         btnInicio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -112,8 +114,12 @@ public class HomeFuncionario extends javax.swing.JFrame {
             }
         });
 
+        btnPausa.setBackground(new java.awt.Color(0, 6, 51));
+        btnPausa.setForeground(new java.awt.Color(245, 245, 245));
         btnPausa.setText("Pausa");
 
+        btnFim.setBackground(new java.awt.Color(0, 6, 51));
+        btnFim.setForeground(new java.awt.Color(245, 245, 245));
         btnFim.setText("Fim Jornada");
         btnFim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -121,6 +127,8 @@ public class HomeFuncionario extends javax.swing.JFrame {
             }
         });
 
+        btnSair.setBackground(new java.awt.Color(0, 6, 51));
+        btnSair.setForeground(new java.awt.Color(245, 245, 245));
         btnSair.setText("Sair");
         btnSair.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
