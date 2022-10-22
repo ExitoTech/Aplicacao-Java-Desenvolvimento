@@ -56,6 +56,11 @@ public class LoginMaquina extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(54, 39, 217));
         jLabel3.setText("Sou administrador");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,6 +113,13 @@ public class LoginMaquina extends javax.swing.JFrame {
         SelectFromDatabase validarMaquina = new SelectFromDatabase();
         validarMaquina.validarMaquina(idMaquina);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        setVisible(false);
+        new Login().setVisible(true);
+        
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
