@@ -102,7 +102,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <EmptySpace pref="27" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnFim" pref="55" max="32767" attributes="0"/>
                   <Component id="btnInicio" max="32767" attributes="0"/>
@@ -139,7 +139,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
                   <Component id="lb1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="lb2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -150,8 +150,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb1" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="lb2" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="lb1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lb2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="41" max="32767" attributes="0"/>
               </Group>
@@ -207,6 +207,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Pausa"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPausaMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnFim">
       <Properties>

@@ -4,6 +4,11 @@
  */
 package com.mycompany.exitotech.jar.gui;
 
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.CANCEL_OPTION;
+import static javax.swing.JOptionPane.NO_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
+
 /**
  *
  * @author Vini
@@ -91,7 +96,7 @@ public class HomeFuncionario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(183, 183, 183)
                 .addComponent(lb1)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(lb2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -100,8 +105,8 @@ public class HomeFuncionario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lb2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lb1)
+                    .addComponent(lb2))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -117,6 +122,11 @@ public class HomeFuncionario extends javax.swing.JFrame {
         btnPausa.setBackground(new java.awt.Color(0, 6, 51));
         btnPausa.setForeground(new java.awt.Color(245, 245, 245));
         btnPausa.setText("Pausa");
+        btnPausa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPausaMouseClicked(evt);
+            }
+        });
 
         btnFim.setBackground(new java.awt.Color(0, 6, 51));
         btnFim.setForeground(new java.awt.Color(245, 245, 245));
@@ -162,7 +172,7 @@ public class HomeFuncionario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnFim, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
                     .addComponent(btnInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -200,8 +210,8 @@ public class HomeFuncionario extends javax.swing.JFrame {
                              minutos = 0;
                              hora++;
                          }
-                         lb1.setText(hora + " : " + minutos + " : " + segundos+ " : ");
-                         lb2.setText(" : " + miliesegundos);
+                         lb1.setText(hora + " : " + minutos + " : " + segundos);
+                         lb2.setText(""+miliesegundos);
                          miliesegundos ++;  
                      } catch (Exception e) {
                          
@@ -218,12 +228,29 @@ public class HomeFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInicioMouseClicked
 
     private void btnFimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFimMouseClicked
-        estado = false;
+        Integer resposta = 0;
+        resposta = JOptionPane.showConfirmDialog(null, "Deseja terminar seu expediente?");
+        if (resposta == JOptionPane.YES_OPTION) {
+            estado = true;
+            JOptionPane.showMessageDialog(null, "Deslogando..");
+            System.exit(0);
+        }
+        else if(resposta == JOptionPane.NO_OPTION){
+            estado = true;
+        }
+        else if(resposta == JOptionPane.CANCEL_OPTION){
+            estado = true;
+        }
     }//GEN-LAST:event_btnFimMouseClicked
 
     private void btnSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMouseClicked
-       System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_btnSairMouseClicked
+
+    private void btnPausaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPausaMouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showInputDialog(null, "Digite o id para entrar em hoario de almoço..");
+    }//GEN-LAST:event_btnPausaMouseClicked
 
     /**
      * @param args the command line arguments
