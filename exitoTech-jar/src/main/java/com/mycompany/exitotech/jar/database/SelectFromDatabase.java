@@ -66,7 +66,7 @@ public class SelectFromDatabase {
             JOptionPane.showMessageDialog(null, "Máquina confirmada!");
             new LoginMaquina().setVisible(false);
             new HomeFuncionario().setVisible(true);
-            //insiraDados(id);
+            insiraDados(id);
             captureDados(id);
         } else {
             JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
