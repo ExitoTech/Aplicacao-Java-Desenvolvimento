@@ -110,5 +110,12 @@
 
         </dependency>
 
+        
+        <dependency>
+    <groupId>com.nexmo</groupId>
+    <artifactId>client</artifactId>
+    <version>4.0.1</version>
+</dependency>
+
     </dependencies>
 </project>
