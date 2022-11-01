@@ -153,7 +153,7 @@ public class SelectFromDatabase {
         System.out.println("----------------");
         System.out.println(ArquiteturaSO);
         System.out.println("----------------");
-        System.out.println(SizeDisco + "GB");
+        System.out.println(SizeDisco /1000 + "GB");
         System.out.println("----------------");
         System.out.println(SizeMemoria / 1000 + "GB");
         System.out.println("----------------");
