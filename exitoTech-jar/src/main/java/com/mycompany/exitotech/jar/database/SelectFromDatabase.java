@@ -22,7 +22,7 @@ public class SelectFromDatabase {
 
     public void validarLogin(String email, String senha) {
         ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysqlLocal();
+        connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
         Integer incremntoValidacao = 0;
@@ -49,7 +49,7 @@ public class SelectFromDatabase {
         Integer id = Integer.parseInt(idNumero);
 
         ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysqlLocal();
+        connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
         String query = "SELECT * FROM maquina WHERE idMaquina = '" + idNumero + "'";
@@ -75,7 +75,7 @@ public class SelectFromDatabase {
 
     public void SelecionarEmpresas() {
         ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysqlLocal();
+        connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
         List<Funcionario> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Funcionario.class));
@@ -89,7 +89,7 @@ public class SelectFromDatabase {
 
         Looca looca = new Looca();
         ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysqlLocal();
+        connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
         Timer timer = new Timer();
@@ -135,7 +135,7 @@ public class SelectFromDatabase {
 
         Looca looca = new Looca();
         ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysqlLocal();
+        connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
 
         String nome = looca.getProcessador().getId();
@@ -165,7 +165,7 @@ public class SelectFromDatabase {
                 + "arquiteturaSO = '%s', "
                 + "memoriaRam = '%s',"
                 + "memoriaMassa = '%s'"
-                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco+ "GB", SizeMemoria/ 1000 + "GB", id);
+                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco /1000 + "GB", SizeMemoria/ 1000 + "GB", id);
 
         con.execute(query);
 
