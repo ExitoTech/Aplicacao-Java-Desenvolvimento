@@ -179,6 +179,14 @@ public class HomeFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseClicked
+        
+        String idMaquina = JOptionPane.showInputDialog(null, "Confirme o id da máquina novamente!");   
+        
+        SelectFromDatabase ativarExpediente = new SelectFromDatabase();
+
+        ativarExpediente.validarMaquina(idMaquina, "ativado");
+               
+        
         estado = true;
         
         Thread thread = new Thread() {
@@ -223,7 +231,14 @@ public class HomeFuncionario extends javax.swing.JFrame {
         Integer resposta = 0;
         resposta = JOptionPane.showConfirmDialog(null, "Deseja terminar seu expediente?");
         if (resposta == JOptionPane.YES_OPTION) {
+            String idMaquina = JOptionPane.showInputDialog(null, "Digite o id da máquina para finalizar");
+
+            SelectFromDatabase validarMaquina = new SelectFromDatabase();
+
+            validarMaquina.validarMaquina(idMaquina, "desativada");
+
             estado = false;
+            
             JOptionPane.showMessageDialog(null, "Deslogando..");
             System.exit(0);
         }

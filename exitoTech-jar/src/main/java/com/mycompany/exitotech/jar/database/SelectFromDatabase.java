@@ -47,7 +47,8 @@ public class SelectFromDatabase {
 
     public void validarMaquina(String idNumero, String metodo) {
         Integer id = Integer.parseInt(idNumero);
-        Boolean atividade = false;
+        String atividade = "desativado";
+        String inserirStatus;
         
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
@@ -64,27 +65,33 @@ public class SelectFromDatabase {
         }
 
         if (existeMaquina == true) {          
-            if (metodo.equals("entrar")){
-                JOptionPane.showMessageDialog(null, "Máquina confirmada!");
-                atividade = true;
-                
-                new LoginMaquina().setVisible(false);
-                new HomeFuncionario().setVisible(true);
+            if (metodo.equals("inicio")){
+                atividade = "inicio";
                 insiraDados(id);
                 captureDados(id);
                 
-                String query = String.format("Insert into maquina (status)" + 
-                        "values(%b)", atividade);
-                con.execute(query);
+                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
+                con.execute(inserirStatus);
 
+                
+            }else if(metodo.equals("ativado")){
+                atividade = "ativado";
+                
+                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
+                con.execute(inserirStatus);
                 
             }else if(metodo.equals("pausar")){
                 JOptionPane.showMessageDialog(null, "Bom almoço!");
-                atividade = false;
+                atividade = "pausado";
                 
-                String query = String.format("Insert into maquina (status)" + 
-                        "values(%b)", atividade);
-                con.execute(query);
+                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
+                con.execute(inserirStatus);
+                
+            }else{
+                atividade = "desativado";
+                
+                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
+                con.execute(inserirStatus);
             }
             
         } else {

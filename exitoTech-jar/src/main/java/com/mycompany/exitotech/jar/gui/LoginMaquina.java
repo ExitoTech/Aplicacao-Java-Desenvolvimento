@@ -3,7 +3,8 @@ import com.mycompany.exitotech.jar.database.ConexaoDAO;
 import com.mycompany.exitotech.jar.database.SelectFromDatabase;
 
 public class LoginMaquina extends javax.swing.JFrame {
-
+    
+    private String idMaquina;
     
     public LoginMaquina() {
         initComponents();
@@ -108,10 +109,14 @@ public class LoginMaquina extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String idMaquina = txtIdMaquina.getText();
+        idMaquina = txtIdMaquina.getText();
         
-        SelectFromDatabase validarMaquina = new SelectFromDatabase();
-        validarMaquina.validarMaquina(idMaquina, "entrar");
+        SelectFromDatabase iniciarHome = new SelectFromDatabase();
+        
+        iniciarHome.validarMaquina(idMaquina, "inicio");
+        
+        new LoginMaquina().setVisible(false);
+        new HomeFuncionario().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
