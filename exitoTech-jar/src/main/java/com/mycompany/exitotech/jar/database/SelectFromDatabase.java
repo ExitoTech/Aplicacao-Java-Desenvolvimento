@@ -45,9 +45,10 @@ public class SelectFromDatabase {
         }
     }
 
-    public void validarMaquina(String idNumero) {
+    public void validarMaquina(String idNumero, String metodo) {
         Integer id = Integer.parseInt(idNumero);
-
+        Boolean atividade = false;
+        
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
@@ -62,12 +63,30 @@ public class SelectFromDatabase {
             }
         }
 
-        if (existeMaquina == true) {
-            JOptionPane.showMessageDialog(null, "Máquina confirmada!");
-            new LoginMaquina().setVisible(false);
-            new HomeFuncionario().setVisible(true);
-            insiraDados(id);
-            captureDados(id);
+        if (existeMaquina == true) {          
+            if (metodo.equals("entrar")){
+                JOptionPane.showMessageDialog(null, "Máquina confirmada!");
+                atividade = true;
+                
+                new LoginMaquina().setVisible(false);
+                new HomeFuncionario().setVisible(true);
+                insiraDados(id);
+                captureDados(id);
+                
+                String query = String.format("Insert into maquina (status)" + 
+                        "values(%b)", atividade);
+                con.execute(query);
+
+                
+            }else if(metodo.equals("pausar")){
+                JOptionPane.showMessageDialog(null, "Bom almoço!");
+                atividade = false;
+                
+                String query = String.format("Insert into maquina (status)" + 
+                        "values(%b)", atividade);
+                con.execute(query);
+            }
+            
         } else {
             JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
         }

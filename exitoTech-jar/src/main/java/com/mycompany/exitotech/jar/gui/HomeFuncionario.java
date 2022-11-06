@@ -4,6 +4,7 @@
  */
 package com.mycompany.exitotech.jar.gui;
 
+import com.mycompany.exitotech.jar.database.SelectFromDatabase;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.CANCEL_OPTION;
 import static javax.swing.JOptionPane.NO_OPTION;
@@ -117,6 +118,11 @@ public class HomeFuncionario extends javax.swing.JFrame {
                 btnInicioMouseClicked(evt);
             }
         });
+        btnInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInicioActionPerformed(evt);
+            }
+        });
 
         btnPausa.setBackground(new java.awt.Color(0, 6, 51));
         btnPausa.setForeground(new java.awt.Color(245, 245, 245));
@@ -174,6 +180,7 @@ public class HomeFuncionario extends javax.swing.JFrame {
 
     private void btnInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseClicked
         estado = true;
+        
         Thread thread = new Thread() {
             public void run() {
              for(;;){
@@ -230,8 +237,17 @@ public class HomeFuncionario extends javax.swing.JFrame {
 
     private void btnPausaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPausaMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showInputDialog(null, "Digite o id para entrar em hoario de almoço..");
+        String idMaquina = JOptionPane.showInputDialog(null, "Digite o id da máquina para entrar em horário de almoço..");
+        
+        SelectFromDatabase validarMaquina = new SelectFromDatabase();
+        
+        validarMaquina.validarMaquina(idMaquina, "pausar");
+        estado = false;
     }//GEN-LAST:event_btnPausaMouseClicked
+
+    private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInicioActionPerformed
 
     /**
      * @param args the command line arguments

@@ -111,7 +111,7 @@ public class LoginMaquina extends javax.swing.JFrame {
         String idMaquina = txtIdMaquina.getText();
         
         SelectFromDatabase validarMaquina = new SelectFromDatabase();
-        validarMaquina.validarMaquina(idMaquina);
+        validarMaquina.validarMaquina(idMaquina, "entrar");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
