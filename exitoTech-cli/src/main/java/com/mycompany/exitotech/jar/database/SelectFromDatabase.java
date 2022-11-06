@@ -4,6 +4,7 @@ import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.exitotech.jar.gui.Dashboard;
 import com.mycompany.exitotech.jar.gui.HomeFuncionario;
 import com.mycompany.exitotech.jar.gui.LoginMaquina;
+import com.mycompany.exitotech.log.CriandoArquivoTxt;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,6 +25,7 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
+        
 
         Integer incremntoValidacao = 0;
 
@@ -42,6 +44,12 @@ public class SelectFromDatabase {
             JOptionPane.showMessageDialog(null, "Mais de um Usuario com mesmo Login!!");
         } else {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
+            CriandoArquivoTxt arq = new CriandoArquivoTxt();
+
+            arq.escreverTexto(String.format("C:\\Users\\User\\Desktop\\log\\%s-%s", arq.getData(), arq.getHora()),
+                "Aleatoria");
+            throw new RuntimeException("Erro de login");
+
         }
     }
 
