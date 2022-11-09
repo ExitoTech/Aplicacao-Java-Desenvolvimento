@@ -148,7 +148,8 @@ public class Login extends javax.swing.JFrame {
         String usuario = textUsuario.getText();
         String senha = textSenha.getText();
         
-        SelectFromDatabase nomeEmpresas = new SelectFromDatabase();  
+        SelectFromDatabase nomeEmpresas = new SelectFromDatabase(); 
+        nomeEmpresas.validarConexao();
         nomeEmpresas.validarLogin(usuario, senha);
 
         

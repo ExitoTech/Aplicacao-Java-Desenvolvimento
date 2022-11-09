@@ -4,6 +4,8 @@ import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.exitotech.jar.gui.Dashboard;
 import com.mycompany.exitotech.jar.gui.HomeFuncionario;
 import com.mycompany.exitotech.jar.gui.LoginMaquina;
+import com.mycompany.exitotech.log.CriandoArquivoTxt;
+import java.io.IOException;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,6 +22,21 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class SelectFromDatabase {
 
+    public void validarConexao() {
+     try {
+        ConexaoDAO connection = new ConexaoDAO();
+        connection.conexaoMysql();
+        JdbcTemplate con = connection.getConnection();
+     }catch(RuntimeException t){
+            CriandoArquivoTxt arq = new CriandoArquivoTxt();
+
+            arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Jar\\exitoTech-jar\\src\\log-conexao-%s-%s", arq.getData(), arq.getHora()),
+            String.format("log-conexao-%s-%s: Falha na conexão DAO", arq.getData(), arq.getHora()));
+             t.getMessage();
+             System.out.println("Fodeu, erro na conexão DAO");
+        }
+    }
+    
     public void validarLogin(String email, String senha) {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
@@ -40,16 +57,25 @@ public class SelectFromDatabase {
             new Dashboard().setVisible(true);
         } else if (incremntoValidacao > 1) {
             JOptionPane.showMessageDialog(null, "Mais de um Usuario com mesmo Login!!");
-        } else {
+        }else {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
+            CriandoArquivoTxt arq = new CriandoArquivoTxt();
+
+            arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Jar\\exitoTech-jar\\src\\log-falha-login-%s-%s", arq.getData(), arq.getHora()),
+                    String.format("falha-login-%s-%s: Falha no login, usuario ou senha invalidos", arq.getData(), arq.getHora()));
+            throw new RuntimeException("Erro de login");
         }
+        
+        
+
+        
     }
 
     public void validarMaquina(String idNumero, String metodo) {
         Integer id = Integer.parseInt(idNumero);
         String atividade = "desativado";
         String inserirStatus;
-        
+
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
@@ -64,36 +90,35 @@ public class SelectFromDatabase {
             }
         }
 
-        if (existeMaquina == true) {          
-            if (metodo.equals("inicio")){
+        if (existeMaquina == true) {
+            if (metodo.equals("inicio")) {
                 atividade = "inicio";
                 insiraDados(id);
                 captureDados(id);
-                
+
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
 
-                
-            }else if(metodo.equals("ativado")){
+            } else if (metodo.equals("ativado")) {
                 atividade = "ativado";
-                
+
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
-                
-            }else if(metodo.equals("pausar")){
+
+            } else if (metodo.equals("pausar")) {
                 JOptionPane.showMessageDialog(null, "Bom almoço!");
                 atividade = "pausado";
-                
+
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
-                
-            }else{
+
+            } else {
                 atividade = "desativado";
-                
+
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
         }
@@ -179,7 +204,7 @@ public class SelectFromDatabase {
         System.out.println("----------------");
         System.out.println(ArquiteturaSO);
         System.out.println("----------------");
-        System.out.println(SizeDisco /1000 + "GB");
+        System.out.println(SizeDisco / 1000 + "GB");
         System.out.println("----------------");
         System.out.println(SizeMemoria / 1000 + "GB");
         System.out.println("----------------");
@@ -191,10 +216,11 @@ public class SelectFromDatabase {
                 + "arquiteturaSO = '%s', "
                 + "memoriaRam = '%s',"
                 + "memoriaMassa = '%s'"
-                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco /1000 + "GB", SizeMemoria/ 1000 + "GB", id);
+                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco / 1000 + "GB", SizeMemoria / 1000 + "GB", id);
 
         con.execute(query);
 
     }
-
 }
+
+
