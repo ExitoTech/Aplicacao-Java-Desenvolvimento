@@ -4,15 +4,18 @@ import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.exitotech.jar.gui.Dashboard;
 import com.mycompany.exitotech.jar.gui.HomeFuncionario;
 import com.mycompany.exitotech.jar.gui.LoginMaquina;
+import com.mycompany.exitotech.log.CriandoArquivoTxt;
+import com.mycompany.exitotech.log.IncoPassException;
 import com.mycompany.exitotech.slack.app.SlackApp;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.RowSet;
 import javax.swing.JOptionPane;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -28,7 +31,6 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
-        
 
         Integer incremntoValidacao = 0;
 
@@ -47,9 +49,9 @@ public class SelectFromDatabase {
             JOptionPane.showMessageDialog(null, "Mais de um Usuario com mesmo Login!!");
         } else {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
-            
-
+            throw new IncoPassException();
         }
+
     }
 
     public void validarMaquina(String idNumero) {
@@ -114,7 +116,8 @@ public class SelectFromDatabase {
                 System.out.println("memoria Total: " + ConverteBytes(memoria) + " Mb");
                 System.out.println("memoria em uso: " + ConverteBytes(memoriaEmuso) + " Mb");
                 System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
-                System.out.println(String.format("Porcentagem de uso processador: %.0f%s ", usoProcessador, simboloPCT));
+                System.out
+                        .println(String.format("Porcentagem de uso processador: %.0f%s ", usoProcessador, simboloPCT));
                 System.out.println("------------------------------------------------");
 
                 String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
@@ -128,6 +131,7 @@ public class SelectFromDatabase {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
             }
         };
         timer.scheduleAtFixedRate(tarefa, 0, 5000);
@@ -167,7 +171,7 @@ public class SelectFromDatabase {
         System.out.println("----------------");
         System.out.println(ArquiteturaSO);
         System.out.println("----------------");
-        System.out.println(SizeDisco /1000 + "GB");
+        System.out.println(SizeDisco / 1000 + "GB");
         System.out.println("----------------");
         System.out.println(SizeMemoria / 1000 + "GB");
         System.out.println("----------------");
@@ -179,7 +183,8 @@ public class SelectFromDatabase {
                 + "arquiteturaSO = '%s', "
                 + "memoriaRam = '%s',"
                 + "memoriaMassa = '%s'"
-                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco /1000 + "GB", SizeMemoria/ 1000 + "GB", id);
+                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco / 1000 + "GB",
+                SizeMemoria / 1000 + "GB", id);
 
         con.execute(query);
 
