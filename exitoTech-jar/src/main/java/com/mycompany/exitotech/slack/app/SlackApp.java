@@ -1,40 +1,46 @@
 package com.mycompany.exitotech.slack.app;
-
-import com.github.britooo.looca.api.core.Looca;
-import com.github.seratch.jslack.Slack;
-import com.github.seratch.jslack.api.webhook.Payload;
-import com.github.seratch.jslack.api.webhook.WebhookResponse;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import org.jfree.data.json.impl.JSONObject;
 
 /**
  *
  * @author lucas
  */
 public class SlackApp {
-
-    private static String webHooksUrl = "https://hooks.slack.com/services/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";
-    private static String oAuthToken = "xoxb-4140985148451-4220978468465-HoBrj1CNff6nz5NdUQdgqYTN";
-    private static String slackChannel = "aplicativo-de-monitoramento-de-software";
-    Looca looca = new Looca();
-
-    public static void aviso() {
-        Looca looca = new Looca();
-        String cpu = String.format("%.1f", looca.getProcessador().getUso());
-        if (looca.getProcessador().getUso() < 20) {
-            enviarAoSlack("Uso da CPU: " +  cpu + "%");
-        }else{
-            enviarAoSlack("Uso da CPU: " + cpu + "%");
+    private static HttpClient client = HttpClient.newHttpClient();
+    private static final String url = "https://hooks.slack.com/services/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";
+    
+    public static void validacao(Integer id_maquina, Double usoProcessador, Long usoRam) throws IOException, InterruptedException{
+        JSONObject json = new JSONObject();
+        String usoCpu = String.format("%.0f", usoProcessador);
+        
+        if(usoProcessador > 75){
+            json.put("text", "A máquina: " + id_maquina + " está com o uso da CPU acima do normal, seria interessante verificar a máquina."
+                    + "\nUso da CPU: " + usoCpu + "%");
+            enviarMensagem(json);
         }
+        
+        if(usoRam > 75){
+            json.put("text", "A máquina: " + id_maquina + " está com o uso da memória RAM acima do normal, é interessante verificar a máquina."
+                    + "\nUso da memória RAM: " + usoRam + "%");
+            enviarMensagem(json);
+        }
+        SlackApp.enviarMensagem(json);
     }
 
-    public static void enviarAoSlack(String message) {
-        try {
-            StringBuilder msgbuilder = new StringBuilder();
-            msgbuilder.append(message);
-
-            Payload payload = Payload.builder().channel(slackChannel).text(msgbuilder.toString()).build();
-            WebhookResponse wbResp = Slack.getInstance().send(webHooksUrl, payload);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void enviarMensagem(JSONObject content) throws IOException, InterruptedException{
+        HttpRequest request = HttpRequest.newBuilder(URI.create(url))
+                .header("accept", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(content.toString()))
+                .build();
+        
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+        
+        System.out.println(String.format("Status: %s", response.statusCode()));
+        System.out.println(String.format("Response: %s", response.body()));
     }
 }

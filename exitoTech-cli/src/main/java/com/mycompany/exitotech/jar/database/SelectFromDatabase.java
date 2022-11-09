@@ -4,11 +4,15 @@ import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.exitotech.jar.gui.Dashboard;
 import com.mycompany.exitotech.jar.gui.HomeFuncionario;
 import com.mycompany.exitotech.jar.gui.LoginMaquina;
+import com.mycompany.exitotech.slack.app.SlackApp;
+import java.io.IOException;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.RowSet;
 import javax.swing.JOptionPane;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -117,6 +121,13 @@ public class SelectFromDatabase {
                         + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
                 con.execute(query);
 
+                try {
+                    SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
+                } catch (IOException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         timer.scheduleAtFixedRate(tarefa, 0, 5000);
