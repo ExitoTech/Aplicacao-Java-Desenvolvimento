@@ -36,7 +36,7 @@ public class SelectFromDatabase {
             arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Jar\\exitoTech-jar\\src\\log-conexao-%s-%s", arq.getData(), arq.getHora()),
             String.format("log-conexao-%s-%s: Falha na conexão DAO", arq.getData(), arq.getHora()));
              t.getMessage();
-             System.out.println("Fodeu, erro na conexão DAO");
+             System.out.println("erro na conexão DAO");
         }
     }
     
@@ -44,22 +44,32 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
+        connection.conexaoMysqlLocal();
+        JdbcTemplate conLocal = connection.getConnection();
+        
 
-        Integer incremntoValidacao = 0;
+        Integer incrementoValidacao = 0;
 
         String query = "SELECT * FROM funcionario WHERE email = '" + email + "' AND senha = '" + senha + "' ;";
         List<Funcionario> listUsers = con.query(query, new BeanPropertyRowMapper(Funcionario.class));
+        List<Funcionario> listUsersLocal = conLocal.query(query, new BeanPropertyRowMapper(Funcionario.class));
+        
 
         for (Funcionario itemFuncionario : listUsers) {
             if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
-                incremntoValidacao++;
+                incrementoValidacao++;
             }
         }
-        if (incremntoValidacao > 0) {
+        
+        for (Funcionario itemFuncionario : listUsersLocal) {
+            if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
+                incrementoValidacao++;
+            }
+        }
+        
+        if (incrementoValidacao > 0) {
             JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
             new Dashboard().setVisible(true);
-        } else if (incremntoValidacao > 1) {
-            JOptionPane.showMessageDialog(null, "Mais de um Usuario com mesmo Login!!");
         }else {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
             CriandoArquivoTxt arq = new CriandoArquivoTxt();
@@ -67,11 +77,7 @@ public class SelectFromDatabase {
             arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Jar\\exitoTech-jar\\src\\log-falha-login-%s-%s", arq.getData(), arq.getHora()),
                     String.format("falha-login-%s-%s: Falha no login, usuario ou senha invalidos", arq.getData(), arq.getHora()));
             throw new RuntimeException("Erro de login");
-        }
-        
-        
-
-        
+        }                
     }
 
     public void validarMaquina(String idNumero, String metodo) {
@@ -82,13 +88,23 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
+        connection.conexaoMysqlLocal();
+        JdbcTemplate conLocal = connection.getConnection();
 
         String query = "SELECT * FROM maquina WHERE idMaquina = '" + idNumero + "'";
         Boolean existeMaquina = false;
         List<Maquina> listMaquinas = con.query(query, new BeanPropertyRowMapper(Maquina.class));
+        List<Maquina> listMaquinasLocal = conLocal.query(query, new BeanPropertyRowMapper(Maquina.class));
+        
 
         for (int i = 0; i < listMaquinas.size(); i++) {
             if (id.equals(listMaquinas.get(i).getIdMaquina())) {
+                existeMaquina = true;
+            }
+        }
+        
+        for (int i = 0; i < listMaquinasLocal.size(); i++) {
+            if (id.equals(listMaquinasLocal.get(i).getIdMaquina())) {
                 existeMaquina = true;
             }
         }
@@ -100,13 +116,16 @@ public class SelectFromDatabase {
                 captureDados(id);
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
+                new HomeFuncionario().setVisible(true);
                 con.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
 
             } else if (metodo.equals("ativado")) {
                 atividade = "ativado";
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
 
             } else if (metodo.equals("pausar")) {
                 JOptionPane.showMessageDialog(null, "Bom almoço!");
@@ -114,17 +133,19 @@ public class SelectFromDatabase {
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
 
             } else {
                 atividade = "desativado";
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
             }
-
         } else {
             JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
         }
+      
     }
 
     public void SelecionarEmpresas() {
@@ -145,6 +166,8 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
+        connection.conexaoMysqlLocal();
+        JdbcTemplate conLocal = connection.getConnection();
 
         Timer timer = new Timer();
         TimerTask tarefa = new TimerTask() {
@@ -167,14 +190,15 @@ public class SelectFromDatabase {
                 String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
                         + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
                 con.execute(query);
+                conLocal.execute(query);
 
-                try {
-                    SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
-                } catch (IOException ex) {
-                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                }
+  //              try {
+    //                SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
+      //          } catch (IOException ex) {
+        //            Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+          //      } catch (InterruptedException ex) {
+            //        Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+              //  }
             }
         };
         timer.scheduleAtFixedRate(tarefa, 0, 5000);
@@ -198,6 +222,9 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
+        connection.conexaoMysqlLocal();
+        JdbcTemplate conLocal = connection.getConnection();
+        
 
         String nome = looca.getProcessador().getId();
         String processador = looca.getProcessador().getNome();
@@ -206,6 +233,10 @@ public class SelectFromDatabase {
         Long SizeDisco = ConverteBytes(looca.getGrupoDeDiscos().getTamanhoTotal());
         Long SizeMemoria = ConverteBytes(looca.getMemoria().getTotal());
 
+        if(SizeDisco < 1000){
+        SizeDisco /= 1000;
+        }
+        
         System.out.println(nome);
         System.out.println("----------------");
         System.out.println(processador);
@@ -214,7 +245,7 @@ public class SelectFromDatabase {
         System.out.println("----------------");
         System.out.println(ArquiteturaSO);
         System.out.println("----------------");
-        System.out.println(SizeDisco / 1000 + "GB");
+        System.out.println(SizeDisco + "GB");
         System.out.println("----------------");
         System.out.println(SizeMemoria / 1000 + "GB");
         System.out.println("----------------");
@@ -226,9 +257,10 @@ public class SelectFromDatabase {
                 + "arquiteturaSO = '%s', "
                 + "memoriaRam = '%s',"
                 + "memoriaMassa = '%s'"
-                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco / 1000 + "GB", SizeMemoria / 1000 + "GB", id);
+                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco + "GB", SizeMemoria / 1000 + "GB", id);
 
         con.execute(query);
+        conLocal.execute(query);
 
     }
 }

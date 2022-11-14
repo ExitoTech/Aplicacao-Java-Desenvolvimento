@@ -114,9 +114,6 @@ public class LoginMaquina extends javax.swing.JFrame {
         SelectFromDatabase iniciarHome = new SelectFromDatabase();
         
         iniciarHome.validarMaquina(idMaquina, "inicio");
-        
-        new LoginMaquina().setVisible(false);
-        new HomeFuncionario().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
