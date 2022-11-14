@@ -5,10 +5,19 @@
 package com.mycompany.exitotech.jar.gui;
 
 import com.mycompany.exitotech.jar.database.SelectFromDatabase;
+import com.sun.jna.platform.unix.X11;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.CANCEL_OPTION;
-import static javax.swing.JOptionPane.NO_OPTION;
-import static javax.swing.JOptionPane.YES_OPTION;
+import java.awt.SystemTray;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.PopupMenu;
+import java.awt.MenuItem;
+import java.awt.TrayIcon;
+import java.awt.AWTException;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -179,85 +188,15 @@ public class HomeFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseClicked
-        
-        String idMaquina = JOptionPane.showInputDialog(null, "Confirme o id da máquina novamente!");   
-        
-        SelectFromDatabase ativarExpediente = new SelectFromDatabase();
-
-        ativarExpediente.validarMaquina(idMaquina, "ativado");
-               
-        
-        estado = true;
-        
-        Thread thread = new Thread() {
-            public void run() {
-             for(;;){
-                 if (estado == true) {
-                     try {
-                         sleep(1);
-                         if (miliesegundos>=1000) {
-                             miliesegundos = 0;
-                             segundos++;
-                         }
-                         if (segundos>=60) {
-                             miliesegundos = 0;
-                             segundos = 0;
-                             minutos++;
-                         }
-                         if (minutos>=60) {
-                             miliesegundos = 0;
-                             segundos = 0;
-                             minutos = 0;
-                             hora++;
-                         }
-                         lb1.setText(hora + " : " + minutos + " : " + segundos);
-                         lb2.setText(""+miliesegundos);
-                         miliesegundos ++;  
-                     } catch (Exception e) {
-                         
-                     }
-                 }
-                 else{
-                     break;
-                 }
-             }
-            }
-        };
-        
-        thread.start();
+        OnBtnInicioClicked();
     }//GEN-LAST:event_btnInicioMouseClicked
 
     private void btnFimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFimMouseClicked
-        Integer resposta = 0;
-        resposta = JOptionPane.showConfirmDialog(null, "Deseja terminar seu expediente?");
-        if (resposta == JOptionPane.YES_OPTION) {
-            String idMaquina = JOptionPane.showInputDialog(null, "Digite o id da máquina para finalizar");
-
-            SelectFromDatabase validarMaquina = new SelectFromDatabase();
-
-            validarMaquina.validarMaquina(idMaquina, "desativada");
-
-            estado = false;
-            
-            JOptionPane.showMessageDialog(null, "Deslogando..");
-            System.exit(0);
-        }
-        else if(resposta == JOptionPane.NO_OPTION){
-            estado = true;
-        }
-        else if(resposta == JOptionPane.CANCEL_OPTION){
-            estado = true;
-        }
+        OnBtnFimClicked();
     }//GEN-LAST:event_btnFimMouseClicked
 
     private void btnPausaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPausaMouseClicked
-        // TODO add your handling code here:
-        String idMaquina = JOptionPane.showInputDialog(null, "Digite o id da máquina para entrar em horário de almoço..");
-        
-        SelectFromDatabase validarMaquina = new SelectFromDatabase();
-        
-        validarMaquina.validarMaquina(idMaquina, "pausar");
-        estado = false;
+        OnBtnPausaClicked();
     }//GEN-LAST:event_btnPausaMouseClicked
 
     private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
@@ -295,8 +234,149 @@ public class HomeFuncionario extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new HomeFuncionario().setVisible(true);
+                new HomeFuncionario().configSystemTray();
             }
         });
+    }
+
+    public void configSystemTray() {
+        SystemTray tray = SystemTray.getSystemTray();
+
+        Image img = Toolkit.getDefaultToolkit().getImage("src/main/resources/assets/img-logo-jar.png");
+
+        ActionListener BtnInicio = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                OnBtnInicioClicked();
+            }
+        };
+
+        ActionListener BtnPausa = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                OnBtnPausaClicked();
+            }
+        };
+
+        ActionListener BtnFim = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                OnBtnFimClicked();
+            }
+        };
+        
+  //      ActionListener AbraAplicacao = new ActionListener() {
+  //          public void actionPerformed(ActionEvent e) {
+  //              new HomeFuncionario().setState(JFrame.MAXIMIZED_BOTH);
+  //              
+  //           }
+  //      };
+        
+        
+        PopupMenu popup = new PopupMenu();
+        MenuItem btnInicio = new MenuItem();
+        MenuItem btnPausa = new MenuItem();
+        MenuItem btnFim = new MenuItem();
+        
+        btnInicio.addActionListener(BtnInicio);
+        btnInicio.setLabel("Iniciar Jornada");
+        
+        btnPausa.addActionListener(BtnPausa);
+        btnPausa.setLabel("Pausa");
+        
+        btnFim.addActionListener(BtnFim);
+        btnFim.setLabel("Fim da Jornada");
+        
+        popup.add(btnInicio);
+        popup.add(btnPausa);
+        popup.add(btnFim);
+        
+        TrayIcon trayIcon = new TrayIcon(img, "ExitoTech", popup);
+        // set the TrayIcon properties
+        // ...
+        trayIcon.setImageAutoSize(true);
+        //trayIcon.addActionListener(AbraAplicacao);
+        // add the tray image
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.err.println(e);
+        }
+             
+    }
+
+    public void OnBtnInicioClicked() {
+        String idMaquina = JOptionPane.showInputDialog(null, "Confirme o id da máquina novamente!");
+
+        SelectFromDatabase ativarExpediente = new SelectFromDatabase();
+
+        ativarExpediente.validarMaquina(idMaquina, "ativado");
+
+        estado = true;
+
+        Thread thread = new Thread() {
+            public void run() {
+                for (;;) {
+                    if (estado == true) {
+                        try {
+                            sleep(1);
+                            if (miliesegundos >= 1000) {
+                                miliesegundos = 0;
+                                segundos++;
+                            }
+                            if (segundos >= 60) {
+                                miliesegundos = 0;
+                                segundos = 0;
+                                minutos++;
+                            }
+                            if (minutos >= 60) {
+                                miliesegundos = 0;
+                                segundos = 0;
+                                minutos = 0;
+                                hora++;
+                            }
+                            lb1.setText(hora + " : " + minutos + " : " + segundos);
+                            lb2.setText("" + miliesegundos);
+                            miliesegundos++;
+                        } catch (Exception e) {
+
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+        };
+
+        thread.start();
+    }
+
+    public void OnBtnPausaClicked() {
+        String idMaquina = JOptionPane.showInputDialog(null, "Digite o id da máquina para entrar em horário de almoço..");
+
+        SelectFromDatabase validarMaquina = new SelectFromDatabase();
+
+        validarMaquina.validarMaquina(idMaquina, "pausar");
+        estado = false;
+    }
+
+    public void OnBtnFimClicked() {
+        Integer resposta = 0;
+        resposta = JOptionPane.showConfirmDialog(null, "Deseja terminar seu expediente?");
+        if (resposta == JOptionPane.YES_OPTION) {
+            String idMaquina = JOptionPane.showInputDialog(null, "Digite o id da máquina para finalizar");
+
+            SelectFromDatabase validarMaquina = new SelectFromDatabase();
+
+            validarMaquina.validarMaquina(idMaquina, "desativada");
+
+            estado = false;
+
+            JOptionPane.showMessageDialog(null, "Deslogando..");
+            System.exit(0);
+        } else if (resposta == JOptionPane.NO_OPTION) {
+            estado = true;
+        } else if (resposta == JOptionPane.CANCEL_OPTION) {
+            estado = true;
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -2,6 +2,15 @@ package com.mycompany.exitotech.jar.gui;
 import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.exitotech.graficos.GraficoMemoria;
 import com.mycompany.exitotech.graficos.GraficoProcessos;
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 public class Dashboard extends javax.swing.JFrame {
 
@@ -85,21 +94,15 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GerarGraficoPizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerarGraficoPizzaActionPerformed
-       GraficoMemoria graficoMemoria = new GraficoMemoria();
-        graficoMemoria.criarGraficoMemoria();
-        
-        GraficoProcessos graficoProcessos = new GraficoProcessos();
-        graficoProcessos.criarGraficoProcessos();
+       gerarGrafico();
     }//GEN-LAST:event_GerarGraficoPizzaActionPerformed
 
     private void ListarHardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarHardwareActionPerformed
-        Looca looca = new Looca();
-        System.out.println(looca.getProcessador());
+     listarHardware();
     }//GEN-LAST:event_ListarHardwareActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        JOptionPane.showMessageDialog(null, "Realmente deseja sair?");
-        System.exit(1);
+     sair();
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**
@@ -133,9 +136,92 @@ public class Dashboard extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Dashboard().setVisible(true);
+                new Dashboard().configSystemTray();
             }
         });
     }
+    
+     public void configSystemTray() {
+        SystemTray tray = SystemTray.getSystemTray();
+
+        Image img = Toolkit.getDefaultToolkit().getImage("src/main/resources/assets/img-logo-jar.png");
+
+        ActionListener gerarGrafico = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               gerarGrafico();
+            }
+        };
+
+        ActionListener listarHard = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                 listarHardware();
+            }
+        };
+
+        ActionListener sair = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               sair();
+            }
+        };
+        
+  //      ActionListener AbraAplicacao = new ActionListener() {
+  //          public void actionPerformed(ActionEvent e) {
+  //              new HomeFuncionario().setState(JFrame.MAXIMIZED_BOTH);
+  //              
+  //           }
+  //      };
+        
+        
+        PopupMenu popup = new PopupMenu();
+        MenuItem gerarGraficos = new MenuItem();
+        MenuItem listarHardwares = new MenuItem();
+        MenuItem btnSair = new MenuItem();
+        
+        gerarGraficos.addActionListener(gerarGrafico);
+        gerarGraficos.setLabel("Gráficos");
+        
+        listarHardwares.addActionListener(listarHard);
+        listarHardwares.setLabel("Listar Hardware");
+        
+        btnSair.addActionListener(sair);
+        btnSair.setLabel("Sair");
+        
+        popup.add(gerarGraficos);
+        popup.add(listarHardwares);
+        popup.add(btnSair);
+        
+        TrayIcon trayIcon = new TrayIcon(img, "ExitoTech", popup);
+        // set the TrayIcon properties
+        // ...
+        trayIcon.setImageAutoSize(true);
+        //trayIcon.addActionListener(AbraAplicacao);
+        // add the tray image
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.err.println(e);
+        }
+             
+    }
+     
+     public void gerarGrafico(){
+        GraficoMemoria graficoMemoria = new GraficoMemoria();
+        graficoMemoria.criarGraficoMemoria();
+        
+        GraficoProcessos graficoProcessos = new GraficoProcessos();
+        graficoProcessos.criarGraficoProcessos();
+     
+     }
+     
+     public void listarHardware(){
+        Looca looca = new Looca();
+        System.out.println(looca.getProcessador());
+     }
+     
+     public void sair(){
+        JOptionPane.showMessageDialog(null, "Realmente deseja sair?");
+        System.exit(1);
+     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GerarGraficoPizza;
