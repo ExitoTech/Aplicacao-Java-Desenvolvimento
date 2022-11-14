@@ -257,7 +257,7 @@ public class SelectFromDatabase {
                 + "arquiteturaSO = '%s', "
                 + "memoriaRam = '%s',"
                 + "memoriaMassa = '%s'"
-                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeDisco + "GB", SizeMemoria / 1000 + "GB", id);
+                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeMemoria + "GB", SizeDisco / 1000 + "GB", id);
 
         con.execute(query);
         conLocal.execute(query);
