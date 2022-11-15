@@ -231,7 +231,7 @@ public class SelectFromDatabase {
         String so = looca.getSistema().getSistemaOperacional();
         String ArquiteturaSO = looca.getSistema().getArquitetura() + "bits";
         Long SizeDisco = ConverteBytes(looca.getGrupoDeDiscos().getTamanhoTotal());
-        Long SizeMemoria = ConverteBytes(looca.getMemoria().getTotal());
+        Long SizeMemoria = ConverteBytes(looca.getMemoria().getTotal());    
 
         if(SizeDisco < 1000){
         SizeDisco /= 1000;
@@ -257,7 +257,7 @@ public class SelectFromDatabase {
                 + "arquiteturaSO = '%s', "
                 + "memoriaRam = '%s',"
                 + "memoriaMassa = '%s'"
-                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeMemoria + "GB", SizeDisco / 1000 + "GB", id);
+                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeMemoria / 1000 + "GB", SizeDisco + "GB", id);
 
         con.execute(query);
         conLocal.execute(query);
