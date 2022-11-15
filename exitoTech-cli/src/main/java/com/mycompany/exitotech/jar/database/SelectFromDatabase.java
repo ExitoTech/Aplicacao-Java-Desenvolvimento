@@ -115,13 +115,13 @@ public class SelectFromDatabase {
                         + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
                 con.execute(query);
 
-//                try {
-//                    SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
+                } catch (IOException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
         };
