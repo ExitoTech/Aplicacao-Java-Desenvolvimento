@@ -31,22 +31,26 @@ public class SlackApp {
                         "ON ser.fk_Empresa = emp.idEmpresa WHERE idMaquina = %d;", id_maquina);
         List webHook = con.queryForList(query);
         String wh = webHook.toString().replace("[{webHook=", "").replace("}]", "");
-        url = wh;
-        JSONObject json = new JSONObject();
-        String usoCpu = String.format("%.0f", usoProcessador);
         
-        if(usoProcessador > 1){
-            json.put("text", "A máquina: " + id_maquina + " está com o uso da CPU acima do normal, seria interessante verificar a máquina."
-                    + "\nUso da CPU: " + usoCpu + "%");
-            enviarMensagem(json);
+        if(wh == null || wh.equals("")){
+            System.out.println("\nNenhum Slack cadastrado/encontrado.\n");
+        }else{
+            url = wh;
+            JSONObject json = new JSONObject();
+            String usoCpu = String.format("%.0f", usoProcessador);
+
+            if(usoProcessador > 75){
+                json.put("text", "A máquina: " + id_maquina + " está com o uso da CPU acima do normal, seria interessante verificar a máquina."
+                        + "\nUso da CPU: " + usoCpu + "%");
+                enviarMensagem(json);
+            }
+
+            if(usoRam > 75){
+                json.put("text", "A máquina: " + id_maquina + " está com o uso da memória RAM acima do normal, é interessante verificar a máquina."
+                        + "\nUso da memória RAM: " + usoRam + "%");
+                enviarMensagem(json);
+            }
         }
-        
-        if(usoRam > 1){
-            json.put("text", "A máquina: " + id_maquina + " está com o uso da memória RAM acima do normal, é interessante verificar a máquina."
-                    + "\nUso da memória RAM: " + usoRam + "%");
-            enviarMensagem(json);
-        }
-        SlackApp.enviarMensagem(json);
     }
 
     public static void enviarMensagem(JSONObject content) throws IOException, InterruptedException{
