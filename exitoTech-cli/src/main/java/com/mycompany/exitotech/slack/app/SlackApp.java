@@ -21,7 +21,7 @@ public class SlackApp {
     
     public static void validacao(Integer id_maquina, Double usoProcessador, Long usoRam) throws IOException, InterruptedException{
         ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysqlLocal();
+        connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
         String query = String.format("SELECT emp.webHook AS webHook\n" +
                         "FROM maquina AS maq \n" +

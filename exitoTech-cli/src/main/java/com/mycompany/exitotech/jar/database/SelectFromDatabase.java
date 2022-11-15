@@ -1,11 +1,6 @@
 package com.mycompany.exitotech.jar.database;
 
 import com.github.britooo.looca.api.core.Looca;
-import com.mycompany.exitotech.jar.gui.Dashboard;
-import com.mycompany.exitotech.jar.gui.HomeFuncionario;
-import com.mycompany.exitotech.jar.gui.LoginMaquina;
-import com.mycompany.exitotech.log.CriandoArquivoTxt;
-import com.mycompany.exitotech.log.IncoPassException;
 import com.mycompany.exitotech.slack.app.SlackApp;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -43,13 +38,11 @@ public class SelectFromDatabase {
             }
         }
         if (incremntoValidacao > 0) {
-            JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
-            new Dashboard().setVisible(true);
+            System.out.println("Logado com Sucesso!");
         } else if (incremntoValidacao > 1) {
-            JOptionPane.showMessageDialog(null, "Mais de um Usuario com mesmo Login!!");
+            System.out.println("Mais de um Usuario com mesmo Login!!");
         } else {
-            JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
-            throw new IncoPassException();
+            System.out.println("Senha ou Email invalidos!");
         }
 
     }
@@ -72,13 +65,11 @@ public class SelectFromDatabase {
         }
 
         if (existeMaquina == true) {
-            JOptionPane.showMessageDialog(null, "Máquina confirmada!");
-            new LoginMaquina().setVisible(false);
-            new HomeFuncionario().setVisible(true);
+            System.out.println("Máquina confirmada");
             insiraDados(id);
             captureDados(id);
         } else {
-            JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
+            System.out.println("Máquina não existe no banco..");
         }
     }
 
@@ -124,13 +115,13 @@ public class SelectFromDatabase {
                         + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
                 con.execute(query);
 
-                try {
-                    SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
-                } catch (IOException ex) {
-                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+//                }
 
             }
         };
