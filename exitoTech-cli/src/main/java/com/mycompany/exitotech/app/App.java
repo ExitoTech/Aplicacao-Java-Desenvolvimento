@@ -37,7 +37,8 @@ public class App {
                 
                 conexaoCLI.insiraDados(numMaquina);
                 conexaoCLI.captureDados(numMaquina);
-
+                scLoginUser.close();
+                scLoginPassword.close();
                 
                 
             } else if (numDigitado == 0) {
@@ -45,7 +46,8 @@ public class App {
             }
         } while (numDigitado != 0);
         
-        
+    sc.close();
+    
     }
 
 }
