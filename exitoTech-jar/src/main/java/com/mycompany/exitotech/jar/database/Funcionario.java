@@ -12,6 +12,17 @@ public class Funcionario {
     private String cep;
     private String fk_Empresa;
     private String isADM;
+    private Integer qrCode; 
+
+    public Integer getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(Integer qrCode) {
+        this.qrCode = qrCode;
+    }
+    
+    
 
     public Integer getIdFuncionario() {
         return idFuncionario;

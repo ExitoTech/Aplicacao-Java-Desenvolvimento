@@ -1,19 +1,22 @@
 package com.mycompany.exitotech.jar.gui;
+
 import com.mycompany.exitotech.jar.database.ConexaoDAO;
 import com.mycompany.exitotech.jar.database.SelectFromDatabase;
+import com.mycompany.exitotech.mfa.Mfa;
 import javax.swing.JTextField;
 import com.mycompany.exitotech.recuperar.senha.OpenLink;
+import com.nexmo.client.NexmoClientException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
-    
+
     public Login() {
         initComponents();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -142,18 +145,20 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
- 
+
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
+       
 
         String usuario = textUsuario.getText();
         String senha = textSenha.getText();
-        
-        SelectFromDatabase nomeEmpresas = new SelectFromDatabase(); 
+
+      
+
+        SelectFromDatabase nomeEmpresas = new SelectFromDatabase();
         nomeEmpresas.validarConexao();
         nomeEmpresas.validarLogin(usuario, senha);
 
-        
-        
+
     }//GEN-LAST:event_buttonEntrarActionPerformed
 
     private void textSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSenhaActionPerformed
@@ -177,7 +182,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(null, "Erro ao abir link..");
         }
     }//GEN-LAST:event_buttonEsqueceuSenhaMouseClicked
-    
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -198,7 +203,7 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             new Login().setVisible(true);
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -212,9 +217,4 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField textUsuario;
     // End of variables declaration//GEN-END:variables
 
-    
-
-    
-
-    
 }
