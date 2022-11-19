@@ -16,6 +16,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.RowSet;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -265,6 +266,24 @@ public class SelectFromDatabase {
 
         con.execute(query);
         conLocal.execute(query);
-
+    }
+    
+    public void insiraHorasTrabalhadas(Integer hora,Integer minutos,Integer horaPausa,Integer minutosPausa,String idMaquina){
+        ConexaoDAO connection = new ConexaoDAO();
+        connection.conexaoMysql();
+        JdbcTemplate con = connection.getConnection();
+        connection.conexaoMysqlLocal();
+        JdbcTemplate conLocal = connection.getConnection();
+        
+        Integer ano = LocalDate.now().getYear();
+        Integer mes = LocalDate.now().getMonthValue();
+        Integer dia = LocalDate.now().getDayOfMonth();
+        
+         String query = String.format("insert into bancoDeHora(dataRegistro,horasTrabalhadas,tempoPausa,fk_maquina)"
+                 + "values('%d-%d-%d','%d:%d','%d:%d',%s);", ano,mes,dia,hora,minutos,horaPausa,minutosPausa,idMaquina);
+        
+         con.execute(query);
+         conLocal.execute(query);
+         
     }
 }

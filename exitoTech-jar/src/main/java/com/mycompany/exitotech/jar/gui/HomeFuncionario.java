@@ -30,6 +30,13 @@ public class HomeFuncionario extends javax.swing.JFrame {
     Integer minutos = 0;
     Integer hora = 0;
     Boolean estado = true;
+    
+    
+    Integer miliesegundosPausa = 0;
+    Integer segundosPausa = 0;
+    Integer minutosPausa = 0;
+    Integer horaPausa = 0;
+    Boolean pausa = false;
 
     public HomeFuncionario() {
         initComponents();
@@ -308,8 +315,10 @@ public class HomeFuncionario extends javax.swing.JFrame {
         SelectFromDatabase ativarExpediente = new SelectFromDatabase();
 
         ativarExpediente.validarMaquina(idMaquina, "ativado");
-
+        
+        pausa = false;
         estado = true;
+     
 
         Thread thread = new Thread() {
             public void run() {
@@ -338,7 +347,7 @@ public class HomeFuncionario extends javax.swing.JFrame {
                         } catch (Exception e) {
 
                         }
-                    } else {
+                    } else{
                         break;
                     }
                 }
@@ -355,6 +364,40 @@ public class HomeFuncionario extends javax.swing.JFrame {
 
         validarMaquina.validarMaquina(idMaquina, "pausar");
         estado = false;
+        pausa = true;
+        
+                Thread thread = new Thread() {
+            public void run() {
+                for (;;) {
+                    if (pausa == true) {
+                        try {
+                            sleep(1);
+                            if (miliesegundosPausa >= 1000) {
+                                miliesegundosPausa = 0;
+                                segundosPausa++;
+                            }
+                            if (segundosPausa >= 60) {
+                                miliesegundosPausa = 0;
+                                segundosPausa = 0;
+                                minutosPausa++;
+                            }
+                             if (minutosPausa >= 60) {
+                                miliesegundosPausa = 0;
+                                segundosPausa = 0;
+                                minutosPausa = 0;
+                                horaPausa++;
+                            }
+                            miliesegundosPausa++;
+                        } catch (Exception e) {
+                        }
+                    } else{
+                        break;
+                    }
+                }
+            }
+        };
+
+        thread.start();
     }
 
     public void OnBtnFimClicked() {
@@ -370,6 +413,7 @@ public class HomeFuncionario extends javax.swing.JFrame {
             estado = false;
 
             JOptionPane.showMessageDialog(null, "Deslogando..");
+            validarMaquina.insiraHorasTrabalhadas(minutos, segundos,minutosPausa,segundosPausa,idMaquina);
             System.exit(0);
         } else if (resposta == JOptionPane.NO_OPTION) {
             estado = true;
