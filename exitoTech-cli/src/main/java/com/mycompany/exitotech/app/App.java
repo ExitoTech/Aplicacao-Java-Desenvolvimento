@@ -30,17 +30,14 @@ public class App {
                 System.out.println("< ----- LOGIN ----- >");
                 SelectFromDatabase conexaoCLI = new SelectFromDatabase();
                 Scanner scLoginUser = new Scanner(System.in);
-                Scanner scLoginPassword = new Scanner(System.in);
                 Integer numMaquina = 0;
                 System.out.println("Digite o numero da sua maquina");
                 numMaquina = scLoginUser.nextInt();
                 
-                conexaoCLI.insiraDados(numMaquina);
-                conexaoCLI.captureDados(numMaquina);
+                conexaoCLI.validarMaquina(numMaquina.toString(),"inicio");
+
                 scLoginUser.close();
-                scLoginPassword.close();
-                
-                
+                          
             } else if (numDigitado == 0) {
                 System.out.println("Saindo...");
             }

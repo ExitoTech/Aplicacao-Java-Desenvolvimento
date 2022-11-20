@@ -22,7 +22,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.mycompany.exitotech.jar.gui.LoginMaquina</mainClass> 
+                            <mainClass>com.mycompany.exitotech.app.App</mainClass> 
                         </manifest>
                     </archive>
                 </configuration>
