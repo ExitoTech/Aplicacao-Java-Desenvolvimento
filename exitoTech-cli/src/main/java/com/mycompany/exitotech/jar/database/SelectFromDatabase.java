@@ -119,18 +119,23 @@ public class SelectFromDatabase {
                         + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
                 con.execute(query);
                 conLocal.execute(query);
-
-                //              try {
-                //                SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
-                //          } catch (IOException ex) {
-                //            Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                //      } catch (InterruptedException ex) {
-                //        Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                //  }
             }
         };
         timer.scheduleAtFixedRate(tarefa, 0, 5000);
 
+        TimerTask slack = new TimerTask() {
+            @Override
+            public void run() {
+                    try {
+                        SlackApp.validacao(id_maquina);
+                    } catch (IOException ex) {
+                        Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+        timer.scheduleAtFixedRate(slack, 0, 30000);
     }
 
     public static Long ConverteBytes(long bytes) {

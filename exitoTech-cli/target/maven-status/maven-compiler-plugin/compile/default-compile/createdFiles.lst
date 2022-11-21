@@ -1,5 +1,6 @@
 com\mycompany\exitotech\jar\database\SelectFromDatabase.class
 com\mycompany\exitotech\jar\database\SelectFromDatabase$1.class
+com\mycompany\exitotech\slack\app\SlackApp$1.class
 com\mycompany\exitotech\jar\database\Funcionario.class
 com\mycompany\exitotech\slack\app\SlackApp.class
 com\mycompany\exitotech\jar\database\Maquina.class

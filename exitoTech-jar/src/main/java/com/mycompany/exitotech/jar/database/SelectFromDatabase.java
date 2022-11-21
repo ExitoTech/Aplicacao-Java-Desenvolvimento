@@ -120,6 +120,7 @@ public class SelectFromDatabase {
                 atividade = "inicio";
                 insiraDados(id);
                 captureDados(id);
+                SlackApp.validacao(id);
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 new HomeFuncionario().setVisible(true);
@@ -167,7 +168,6 @@ public class SelectFromDatabase {
     }
 
     public void insiraDados(Integer id_maquina) {
-
         Looca looca = new Looca();
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
@@ -197,14 +197,6 @@ public class SelectFromDatabase {
                         + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
                 con.execute(query);
                 conLocal.execute(query);
-
-                //              try {
-                //                SlackApp.validacao(id_maquina, usoProcessador, porcentagem);
-                //          } catch (IOException ex) {
-                //            Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                //      } catch (InterruptedException ex) {
-                //        Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                //  }
             }
         };
         timer.scheduleAtFixedRate(tarefa, 0, 5000);
