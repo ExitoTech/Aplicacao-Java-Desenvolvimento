@@ -59,13 +59,12 @@ public class SlackApp {
         Long memoria = looca.getMemoria().getTotal();
         Long memoriaEmuso = looca.getMemoria().getEmUso();
         Long usoRam = memoriaEmuso * 100 / memoria;
-                
-        Timer timer =  new Timer();
-        TimerTask slack = new TimerTask() {
-            @Override
-            public void run() {
+        
                 List capturaRam = con.queryForList(queryRam);
                 List capturaCpu = con.queryForList(queryCpu);
+                        
+                Integer cpuFormatada = Integer.parseInt(capturaCpu.toString().replace("[{=", "").replace("}]", ""));
+                Integer ramFormatada = Integer.parseInt(capturaRam.toString().replace("[{=", "").replace("}]", ""));
                 
                 if(wh == null || wh.equals("")){
                     System.out.println("\nNenhum Slack cadastrado/encontrado.\n");
@@ -84,8 +83,6 @@ public class SlackApp {
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SlackApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
-                        String queryAviso = String.format("INSERT INTO aviso VALUE ('A máquina: %d, do setor: %d, esteve com a CPU acima do normal.');", id_maquina, set);
                     }
 
                     if(usoRam >= 75){
@@ -98,14 +95,12 @@ public class SlackApp {
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SlackApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
-                        String queryAviso = String.format("INSERT INTO aviso VALUE ('A máquina: %d, do setor: %d, esteve com a memória ram acima do normal. Uso da ram: %');", id_maquina, set, usoRam);
-                        con.execute(queryAviso);
                     }
-                }
             }
-        };
-        timer.scheduleAtFixedRate(slack, 0, 100000);
+                
+
+            String queryAviso = String.format("INSERT INTO aviso(mediaCpu, mediaRam, fk_maquina) VALUES(%d, %d, %d)", cpuFormatada, ramFormatada, id_maquina);
+            con.execute(queryAviso);
     }
 
     public static void enviarMensagem(JSONObject content) throws IOException, InterruptedException{
