@@ -126,13 +126,13 @@ public class SelectFromDatabase {
         TimerTask slack = new TimerTask() {
             @Override
             public void run() {
-                    try {
-                        SlackApp.validacao(id_maquina);
-                    } catch (IOException ex) {
-                        Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                try {
+                    SlackApp.validacao(id_maquina);
+                } catch (IOException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 }
             };
         timer.scheduleAtFixedRate(slack, 0, 30000);

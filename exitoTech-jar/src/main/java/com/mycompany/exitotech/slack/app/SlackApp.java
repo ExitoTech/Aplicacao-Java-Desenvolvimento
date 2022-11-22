@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import org.jfree.data.json.impl.JSONObject;
 import java.util.List;
 import java.util.Timer;
@@ -22,7 +23,7 @@ public class SlackApp {
     private static HttpClient client = HttpClient.newHttpClient();
     private static String url;
     
-    public static void validacao(Integer id_maquina){
+    public static void validacao(Integer id_maquina) throws IOException, InterruptedException{
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
@@ -48,6 +49,7 @@ public class SlackApp {
                         "ON ser.fk_Empresa = emp.idEmpresa WHERE idMaquina = %d;", id_maquina);
         
         List webHook = con.queryForList(queryWh);
+        
         List setor = con.queryForList(querySetor);
         
         String wh = webHook.toString().replace("[{webHook=", "").replace("}]", "");
@@ -58,12 +60,10 @@ public class SlackApp {
         Long memoriaEmuso = looca.getMemoria().getEmUso();
         Long usoRam = memoriaEmuso * 100 / memoria;
                 
-        System.out.println("\n\nEstou no Slack!!!\n\n");
-        
-//        Timer timer =  new Timer();
-//        TimerTask slack = new TimerTask() {
-//            @Override
-//            public void run() {
+        Timer timer =  new Timer();
+        TimerTask slack = new TimerTask() {
+            @Override
+            public void run() {
                 List capturaRam = con.queryForList(queryRam);
                 List capturaCpu = con.queryForList(queryCpu);
                 
@@ -75,7 +75,7 @@ public class SlackApp {
                     String usoCpu = String.format("%.0f", usoProcessador);
 
                     if(usoProcessador >= 75){
-                        json.put("text", "A máquina: " + id_maquina + " do setor: " + set + " está com o uso da CPU acima do normal, é recomendado verificar a máquina."
+                        json.put("text", "A máquina: " + id_maquina + " do setor: " + set + " está com o uso da CPU acima do normal, é interessante verificar a máquina."
                                 + "\nUso da CPU: " + usoCpu + "%");
                         try {
                             enviarMensagem(json);
@@ -84,24 +84,29 @@ public class SlackApp {
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SlackApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        
+                        String queryAviso = String.format("INSERT INTO aviso VALUE ('A máquina: %d, do setor: %d, esteve com a CPU acima do normal.');", id_maquina, set);
                     }
 
                     if(usoRam >= 75){
-                            json.put("text", "A máquina: " + id_maquina + " do setor: " + set + " está com o uso da memória RAM acima do normal, é recomendado verificar a máquina."
-                                    + "\nUso da memória RAM: " + usoRam + "%");
                         try {
+                            json.put("text", "A máquina: " + id_maquina + " do setor: " + set + " está com o uso da memória RAM acima do normal, é interessante verificar a máquina."
+                                    + "\nUso da memória RAM: " + usoRam + "%");
                             enviarMensagem(json);
                         } catch (IOException ex) {
                             Logger.getLogger(SlackApp.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SlackApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        
+                        String queryAviso = String.format("INSERT INTO aviso VALUE ('A máquina: %d, do setor: %d, esteve com a memória ram acima do normal. Uso da ram: %');", id_maquina, set, usoRam);
+                        con.execute(queryAviso);
                     }
                 }
             }
-//        };
-//        timer.scheduleAtFixedRate(slack, 0, 10000);
-//    }
+        };
+        timer.scheduleAtFixedRate(slack, 0, 100000);
+    }
 
     public static void enviarMensagem(JSONObject content) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))

@@ -120,7 +120,6 @@ public class SelectFromDatabase {
                 atividade = "inicio";
                 insiraDados(id);
                 captureDados(id);
-                SlackApp.validacao(id);
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 new HomeFuncionario().setVisible(true);
@@ -200,7 +199,20 @@ public class SelectFromDatabase {
             }
         };
         timer.scheduleAtFixedRate(tarefa, 0, 5000);
-
+        
+        TimerTask slack = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    SlackApp.validacao(id_maquina);
+                } catch (IOException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
+            };
+        timer.scheduleAtFixedRate(slack, 0, 30000);
     }
 
     public static Long ConverteBytes(long bytes) {
