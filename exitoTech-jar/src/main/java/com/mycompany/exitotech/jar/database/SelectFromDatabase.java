@@ -96,13 +96,13 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
-        //connection.conexaoMysqlLocal();
-        // JdbcTemplate conLocal = connection.getConnection();
+        connection.conexaoMysqlLocal();
+        JdbcTemplate conLocal = connection.getConnection();
 
         String query = "SELECT * FROM maquina WHERE idMaquina = '" + idNumero + "'";
         Boolean existeMaquina = false;
         List<Maquina> listMaquinas = con.query(query, new BeanPropertyRowMapper(Maquina.class));
-        // List<Maquina> listMaquinasLocal = conLocal.query(query, new BeanPropertyRowMapper(Maquina.class));
+        List<Maquina> listMaquinasLocal = conLocal.query(query, new BeanPropertyRowMapper(Maquina.class));
 
         for (int i = 0; i < listMaquinas.size(); i++) {
             if (id.equals(listMaquinas.get(i).getIdMaquina())) {
@@ -110,11 +110,11 @@ public class SelectFromDatabase {
             }
         }
 
-//        for (int i = 0; i < listMaquinasLocal.size(); i++) {
-//            if (id.equals(listMaquinasLocal.get(i).getIdMaquina())) {
-//                existeMaquina = true;
-//            }
-//        }
+        for (int i = 0; i < listMaquinasLocal.size(); i++) {
+            if (id.equals(listMaquinasLocal.get(i).getIdMaquina())) {
+                existeMaquina = true;
+            }
+        }
         if (existeMaquina == true) {
             if (metodo.equals("inicio")) {
                 atividade = "inicio";
@@ -124,14 +124,14 @@ public class SelectFromDatabase {
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 new HomeFuncionario().setVisible(true);
                 con.execute(inserirStatus);
-                // conLocal.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
 
             } else if (metodo.equals("ativado")) {
                 atividade = "ativado";
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
-                // conLocal.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
 
             } else if (metodo.equals("pausar")) {
                 JOptionPane.showMessageDialog(null, "Bom almoço!");
@@ -139,14 +139,14 @@ public class SelectFromDatabase {
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
-                //conLocal.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
 
             } else {
                 atividade = "desativado";
 
                 inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
                 con.execute(inserirStatus);
-                //conLocal.execute(inserirStatus);
+                conLocal.execute(inserirStatus);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
