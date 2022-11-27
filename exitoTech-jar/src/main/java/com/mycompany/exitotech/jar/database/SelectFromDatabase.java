@@ -154,18 +154,6 @@ public class SelectFromDatabase {
 
     }
 
-    public void SelecionarEmpresas() {
-        ConexaoDAO connection = new ConexaoDAO();
-        connection.conexaoMysql();
-        JdbcTemplate con = connection.getConnection();
-
-        List<Funcionario> listUsers = con.query("SELECT * FROM Empresa;", new BeanPropertyRowMapper(Funcionario.class));
-        for (Funcionario pokemon : listUsers) {
-            System.out.println(listUsers);
-        }
-
-    }
-
     public void insiraDados(Integer id_maquina) {
         Looca looca = new Looca();
         ConexaoDAO connection = new ConexaoDAO();
@@ -183,6 +171,9 @@ public class SelectFromDatabase {
                 Long memoria = looca.getMemoria().getTotal();
                 Long memoriaEmuso = looca.getMemoria().getEmUso();
                 Long porcentagem = memoriaEmuso * 100 / memoria;
+                Long SizeDisco = looca.getGrupoDeDiscos().getTamanhoTotal();
+                Long SizeEmUso = looca.getGrupoDeDiscos().getVolumes().get(0).getDisponivel();
+                Long porcentagemDisco = SizeEmUso * 100 / SizeDisco;
                 String simboloPCT = "%";
 
                 System.out.println("------------------------------------------------");
@@ -190,10 +181,11 @@ public class SelectFromDatabase {
                 System.out.println("memoria em uso: " + ConverteBytes(memoriaEmuso) + " Mb");
                 System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
                 System.out.println(String.format("Porcentagem de uso processador: %.0f%s ", usoProcessador, simboloPCT));
+                System.out.println(String.format("Porcentagem de uso  Disco: %d%s ", porcentagemDisco, simboloPCT));
                 System.out.println("------------------------------------------------");
 
-                String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
-                        + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
+                String query = String.format("Insert into capturas(usoCPU,usoRam,usoDisco,fk_maquina)"
+                        + "Values(%.0f,%d,%d,%d);", usoProcessador, porcentagem,porcentagemDisco, id_maquina);
                 con.execute(query);
                 conLocal.execute(query);
             }

@@ -23,10 +23,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class SelectFromDatabase {
     
-    public void validarMaquina(String idNumero, String metodo) {
+    public void validarMaquina(String idNumero) {
         Integer id = Integer.parseInt(idNumero);
-        String atividade = "desativado";
-        String inserirStatus;
 
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
@@ -50,40 +48,12 @@ public class SelectFromDatabase {
                 existeMaquina = true;
            }
         }
-        if (existeMaquina == true) {
-            if (metodo.equals("inicio")) {
-                atividade = "inicio";
+        if (existeMaquina == true) {        
                 insiraDados(id);
                 captureDados(id);
 
-                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
-                con.execute(inserirStatus);
-                conLocal.execute(inserirStatus);
-
-            } else if (metodo.equals("ativado")) {
-                atividade = "ativado";
-
-                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
-                con.execute(inserirStatus);
-                conLocal.execute(inserirStatus);
-
-            } else if (metodo.equals("pausar")) {
-                JOptionPane.showMessageDialog(null, "Bom almoço!");
-                atividade = "pausado";
-
-                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
-                con.execute(inserirStatus);
-                conLocal.execute(inserirStatus);
-
-            } else {
-                atividade = "desativado";
-
-                inserirStatus = String.format("update maquina set statusMaquina = '" + atividade + "' where idMaquina = '" + id + "' ;");
-                con.execute(inserirStatus);
-                conLocal.execute(inserirStatus);
-            }
         } else {
-            JOptionPane.showMessageDialog(null, "Máquina não existe no banco!");
+            System.out.println("Máquina não existe no banco!");
         }
 
     }
@@ -106,6 +76,9 @@ public class SelectFromDatabase {
                 Long memoria = looca.getMemoria().getTotal();
                 Long memoriaEmuso = looca.getMemoria().getEmUso();
                 Long porcentagem = memoriaEmuso * 100 / memoria;
+                Long SizeDisco = looca.getGrupoDeDiscos().getTamanhoTotal();
+                Long SizeEmUso = looca.getGrupoDeDiscos().getVolumes().get(0).getDisponivel();
+                Long porcentagemDisco = SizeEmUso * 100 / SizeDisco;
                 String simboloPCT = "%";
 
                 System.out.println("------------------------------------------------");
@@ -114,9 +87,11 @@ public class SelectFromDatabase {
                 System.out.println("Porcentagem de memoria em uso: " + porcentagem + "%");
                 System.out.println(String.format("Porcentagem de uso processador: %.0f%s ", usoProcessador, simboloPCT));
                 System.out.println("------------------------------------------------");
+                System.out.println(String.format("Porcentagem de uso  Disco: %d%s ", porcentagemDisco, simboloPCT));
+                System.out.println("------------------------------------------------");
 
-                String query = String.format("Insert into capturas(usoCPU,usoRam,fk_maquina)"
-                        + "Values(%.0f,%d,%d);", usoProcessador, porcentagem, id_maquina);
+                String query = String.format("Insert into capturas(usoCPU,usoRam,usoDisco,fk_maquina)"
+                        + "Values(%.0f,%d,%d,%d);", usoProcessador, porcentagem,porcentagemDisco, id_maquina);
                 con.execute(query);
                 conLocal.execute(query);
             }
@@ -158,7 +133,6 @@ public class SelectFromDatabase {
         connection.conexaoMysqlLocal();
         JdbcTemplate conLocal = connection.getConnection();
 
-        String nome = looca.getProcessador().getId();
         String processador = looca.getProcessador().getNome();
         String so = looca.getSistema().getSistemaOperacional();
         String ArquiteturaSO = looca.getSistema().getArquitetura() + "bits";
@@ -168,9 +142,11 @@ public class SelectFromDatabase {
         if (SizeDisco < 1000) {
             SizeDisco /= 1000;
         }
+        else if(SizeDisco > 10000){
+            SizeDisco /= 1000;
+        }
 
-        System.out.println(nome);
-        System.out.println("----------------");
+
         System.out.println(processador);
         System.out.println("----------------");
         System.out.println(so);
@@ -183,13 +159,12 @@ public class SelectFromDatabase {
         System.out.println("----------------");
 
         String query = String.format("update maquina"
-                + " set nomeMaquina = '%s',"
-                + "processador = '%s',"
+                + " set processador = '%s',"
                 + "sistemaOperacional = '%s',"
                 + "arquiteturaSO = '%s', "
                 + "memoriaRam = '%s',"
                 + "memoriaMassa = '%s'"
-                + "where idMaquina = %d;", nome, processador, so, ArquiteturaSO, SizeMemoria / 1000 + "GB", SizeDisco + "GB", id);
+                + "where idMaquina = %d;", processador, so, ArquiteturaSO, SizeMemoria / 1000 + "GB", SizeDisco + "GB", id);
 
         con.execute(query);
         conLocal.execute(query);

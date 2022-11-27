@@ -34,7 +34,7 @@ public class App {
                 System.out.println("Digite o numero da sua maquina");
                 numMaquina = scLoginUser.nextInt();
                 
-                conexaoCLI.validarMaquina(numMaquina.toString(),"inicio");
+                conexaoCLI.validarMaquina(numMaquina.toString());
 
                 scLoginUser.close();
                           
