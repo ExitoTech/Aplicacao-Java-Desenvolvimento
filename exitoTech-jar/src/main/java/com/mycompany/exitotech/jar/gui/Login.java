@@ -147,12 +147,9 @@ public class Login extends javax.swing.JFrame {
 
 
     private void buttonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntrarActionPerformed
-       
 
         String usuario = textUsuario.getText();
         String senha = textSenha.getText();
-
-      
 
         SelectFromDatabase nomeEmpresas = new SelectFromDatabase();
         nomeEmpresas.validarConexao();
@@ -176,11 +173,20 @@ public class Login extends javax.swing.JFrame {
     private void buttonEsqueceuSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonEsqueceuSenhaMouseClicked
         // TODO add your handling code here:
         OpenLink abrirLink = new OpenLink("www.youtube.com");
-        try {
-            abrirLink.AbrirGuiaRecuperacao();
-        } catch (IOException ex) {
-            JOptionPane.showConfirmDialog(null, "Erro ao abir link..");
+        Integer resposta = 0;
+        resposta = JOptionPane.showConfirmDialog(null, "Deseja terminar seu expediente?");
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                abrirLink.AbrirGuiaRecuperacao();
+            } catch (IOException ex) {
+                JOptionPane.showConfirmDialog(null, "Erro ao abir link..");
+            }
+        } else if (resposta == JOptionPane.NO_OPTION) {
+
+        } else {
+
         }
+
     }//GEN-LAST:event_buttonEsqueceuSenhaMouseClicked
 
     public static void main(String args[]) {
