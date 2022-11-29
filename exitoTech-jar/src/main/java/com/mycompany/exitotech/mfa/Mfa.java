@@ -68,7 +68,7 @@ public class Mfa {
 
         // Configuração do cliente(número), mensagem e tamanho do código (sendo: 4 ou 6)
         VerifyRequest request = new VerifyRequest("5511997599139", "Acess Code");
-        request.setLength(6);
+        request.setLength(4);
 
         // Envio da msg ao usuário
         VerifyResponse verifyResponse = verifyClient.verify(request);

@@ -34,9 +34,6 @@ public class SelectFromDatabase {
             connection.conexaoMysql();
             JdbcTemplate con = connection.getConnection();
 
-            connection.conexaoMysqlLocal();
-            JdbcTemplate conLocal = connection.getConnection();
-
         } catch (RuntimeException t) {
             CriandoArquivoTxt arq = new CriandoArquivoTxt();
 
@@ -51,8 +48,8 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
-        connection.conexaoMysqlLocal();
-        JdbcTemplate conLocal = connection.getConnection();
+        //connection.conexaoMysqlLocal();
+        //JdbcTemplate conLocal = connection.getConnection();
 
         Integer incrementoValidacao = 0;
 
