@@ -32,6 +32,10 @@ public class SelectFromDatabase {
             ConexaoDAO connection = new ConexaoDAO();
             connection.conexaoMysql();
             JdbcTemplate con = connection.getConnection();
+
+            connection.conexaoMysqlLocal();
+            JdbcTemplate conLocal = connection.getConnection();
+
         } catch (RuntimeException t) {
             CriandoArquivoTxt arq = new CriandoArquivoTxt();
 
@@ -46,14 +50,14 @@ public class SelectFromDatabase {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
-        // connection.conexaoMysqlLocal();
-        // JdbcTemplate conLocal = connection.getConnection();
+        connection.conexaoMysqlLocal();
+        JdbcTemplate conLocal = connection.getConnection();
 
         Integer incrementoValidacao = 0;
 
         String query = "SELECT * FROM funcionario WHERE email = '" + email + "' AND senha = '" + senha + "' ;";
         List<Funcionario> listUsers = con.query(query, new BeanPropertyRowMapper(Funcionario.class));
-//        List<Funcionario> listUsersLocal = conLocal.query(query, new BeanPropertyRowMapper(Funcionario.class));
+        List<Funcionario> listUsersLocal = conLocal.query(query, new BeanPropertyRowMapper(Funcionario.class));
 
         for (Funcionario itemFuncionario : listUsers) {
             if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
@@ -61,21 +65,22 @@ public class SelectFromDatabase {
             }
         }
 
-//        for (Funcionario itemFuncionario : listUsersLocal) {
-//            if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
-//                incrementoValidacao++;
-//            }
-//        }
+        for (Funcionario itemFuncionario : listUsersLocal) {
+            if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
+                incrementoValidacao++;
+            }
+        }
+
         if (incrementoValidacao > 0) {
             JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
 
-            if (listUsers.get(0).getQrCode().equals(0)) {
-
+            if (listUsers.get(0).getQrCode().equals(0) || listUsersLocal.get(0).getQrCode().equals(0)) {
                 new Dashboard().setVisible(true);
-
             } else {
                 new MFA().setVisible(true);
             }
+
+          
 
         } else {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
@@ -185,13 +190,13 @@ public class SelectFromDatabase {
                 System.out.println("------------------------------------------------");
 
                 String query = String.format("Insert into capturas(usoCPU,usoRam,usoDisco,fk_maquina)"
-                        + "Values(%.0f,%d,%d,%d);", usoProcessador, porcentagem,porcentagemDisco, id_maquina);
+                        + "Values(%.0f,%d,%d,%d);", usoProcessador, porcentagem, porcentagemDisco, id_maquina);
                 con.execute(query);
                 conLocal.execute(query);
             }
         };
         timer.scheduleAtFixedRate(tarefa, 0, 5000);
-        
+
         TimerTask slack = new TimerTask() {
             @Override
             public void run() {
@@ -202,8 +207,8 @@ public class SelectFromDatabase {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SelectFromDatabase.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                }
-            };
+            }
+        };
         timer.scheduleAtFixedRate(slack, 0, 30000);
     }
 
@@ -263,23 +268,23 @@ public class SelectFromDatabase {
         con.execute(query);
         conLocal.execute(query);
     }
-    
-    public void insiraHorasTrabalhadas(Integer hora,Integer minutos,Integer horaPausa,Integer minutosPausa,String idMaquina){
+
+    public void insiraHorasTrabalhadas(Integer hora, Integer minutos, Integer horaPausa, Integer minutosPausa, String idMaquina) {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
         connection.conexaoMysqlLocal();
         JdbcTemplate conLocal = connection.getConnection();
-        
+
         Integer ano = LocalDate.now().getYear();
         Integer mes = LocalDate.now().getMonthValue();
         Integer dia = LocalDate.now().getDayOfMonth();
-        
-         String query = String.format("insert into bancoDeHora(dataRegistro,horasTrabalhadas,tempoPausa,fk_maquina)"
-                 + "values('%d-%d-%d','%d:%d','%d:%d',%s);", ano,mes,dia,hora,minutos,horaPausa,minutosPausa,idMaquina);
-        
-         con.execute(query);
-         conLocal.execute(query);
-         
+
+        String query = String.format("insert into bancoDeHora(dataRegistro,horasTrabalhadas,tempoPausa,fk_maquina)"
+                + "values('%d-%d-%d','%d:%d','%d:%d',%s);", ano, mes, dia, hora, minutos, horaPausa, minutosPausa, idMaquina);
+
+        con.execute(query);
+        conLocal.execute(query);
+
     }
 }
