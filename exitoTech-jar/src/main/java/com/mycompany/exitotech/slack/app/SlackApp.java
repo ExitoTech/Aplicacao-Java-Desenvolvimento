@@ -97,10 +97,6 @@ public class SlackApp {
                         }
                     }
             }
-                
-
-            String queryAviso = String.format("INSERT INTO aviso(mediaCpu, mediaRam, fk_maquina) VALUES(%d, %d, %d)", cpuFormatada, ramFormatada, id_maquina);
-            con.execute(queryAviso);
     }
 
     public static void enviarMensagem(JSONObject content) throws IOException, InterruptedException{
