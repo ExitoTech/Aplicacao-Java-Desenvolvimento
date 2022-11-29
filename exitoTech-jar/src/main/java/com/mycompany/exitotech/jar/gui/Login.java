@@ -2,6 +2,7 @@ package com.mycompany.exitotech.jar.gui;
 
 import com.mycompany.exitotech.jar.database.ConexaoDAO;
 import com.mycompany.exitotech.jar.database.SelectFromDatabase;
+import com.mycompany.exitotech.log.CriandoArquivoTxt;
 import com.mycompany.exitotech.mfa.Mfa;
 import javax.swing.JTextField;
 import com.mycompany.exitotech.recuperar.senha.OpenLink;
@@ -172,12 +173,26 @@ public class Login extends javax.swing.JFrame {
 
     private void buttonEsqueceuSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonEsqueceuSenhaMouseClicked
         // TODO add your handling code here:
+        
+
         OpenLink abrirLink = new OpenLink("www.youtube.com");
         Integer resposta = 0;
         resposta = JOptionPane.showConfirmDialog(null, "Deseja terminar seu expediente?");
         if (resposta == JOptionPane.YES_OPTION) {
             try {
                 abrirLink.AbrirGuiaRecuperacao();
+                
+                 CriandoArquivoTxt arq = new CriandoArquivoTxt();
+
+
+                 arq.escreverTexto(String.format("C:\\Users\\breno.galante\\Desktop\\ExitoTech\\Aplicacao-Java-Desenvolvimento\\exitoTech-jar\\src\\log-solcitacao-troca-de-senha-%s-%s", arq.getData(), arq.getHora()),
+                    String.format("log-solcitacao-troca-de-senha-%s-%s: Foi solicitada uma alteração de senha", arq.getData(), arq.getHora()));
+                 
+                 System.out.println("Solicitação de alteração de Senha");
+                 throw new RuntimeException("Solicitação de alteração de senha");
+
+                
+                
             } catch (IOException ex) {
                 JOptionPane.showConfirmDialog(null, "Erro ao abir link..");
             }
