@@ -58,7 +58,7 @@ public class SelectFromDatabase {
 
         String query = "SELECT * FROM funcionario WHERE email = '" + email + "' AND senha = '" + senha + "' ;";
         List<Funcionario> listUsers = con.query(query, new BeanPropertyRowMapper(Funcionario.class));
-        List<Funcionario> listUsersLocal = conLocal.query(query, new BeanPropertyRowMapper(Funcionario.class));
+//        List<Funcionario> listUsersLocal = conLocal.query(query, new BeanPropertyRowMapper(Funcionario.class));
 
         for (Funcionario itemFuncionario : listUsers) {
             if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
@@ -66,16 +66,16 @@ public class SelectFromDatabase {
             }
         }
 
-        for (Funcionario itemFuncionario : listUsersLocal) {
-            if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
-                incrementoValidacao++;
-            }
-        }
+//        for (Funcionario itemFuncionario : listUsersLocal) {
+//            if (itemFuncionario.getEmail().equals(email) && itemFuncionario.getSenha().equals(senha)) {
+//                incrementoValidacao++;
+//            }
+//        }
 
         if (incrementoValidacao > 0) {
             JOptionPane.showMessageDialog(null, "Logado com Sucesso!");
 
-            if (listUsers.get(0).getQrCode().equals(0) || listUsersLocal.get(0).getQrCode().equals(0)) {
+            if (listUsers.get(0).getQrCode().equals(0)) {
                 new Dashboard().setVisible(true);
             } else {
                 new MFA().setVisible(true);
