@@ -17,7 +17,7 @@ public class OpenLink {
     private String guia;
 
     public OpenLink(String link) {
-        this.guia = "www.youtube.com";
+        this.guia = "https://exito-tech.azurewebsites.net/recuperarSenha.html";
     }
 
     public String getLink() {

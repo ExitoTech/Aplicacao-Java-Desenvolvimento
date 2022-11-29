@@ -40,7 +40,7 @@ public class SelectFromDatabase {
         } catch (RuntimeException t) {
             CriandoArquivoTxt arq = new CriandoArquivoTxt();
 
-            arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Jar\\exitoTech-jar\\src\\log-conexao-%s-%s", arq.getData(), arq.getHora()),
+            arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Aplicacao-Java-Desenvolvimento\\exitoTech-jar\\logs\\log-conexao-%s-%s.txt", arq.getData(), arq.getHora()),
                     String.format("log-conexao-%s-%s: Falha na conexão DAO", arq.getData(), arq.getHora()));
             t.getMessage();
             System.out.println("erro na conexão DAO");
@@ -87,7 +87,7 @@ public class SelectFromDatabase {
             JOptionPane.showMessageDialog(null, "Senha ou Email invalidos!");
             CriandoArquivoTxt arq = new CriandoArquivoTxt();
 
-            arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Jar\\exitoTech-jar\\src\\log-falha-login-%s-%s", arq.getData(), arq.getHora()),
+            arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Aplicacao-Java-Desenvolvimento\\exitoTech-jar\\logs\\log-falha-login-%s-%s.txt", arq.getData(), arq.getHora()),
                     String.format("falha-login-%s-%s: Falha no login, usuario ou senha invalidos", arq.getData(), arq.getHora()));
             throw new RuntimeException("Erro de login");
         }

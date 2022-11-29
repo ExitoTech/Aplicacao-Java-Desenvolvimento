@@ -181,9 +181,9 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         
 
-        OpenLink abrirLink = new OpenLink("www.youtube.com");
+        OpenLink abrirLink = new OpenLink("https://exito-tech.azurewebsites.net/recuperarSenha.html");
         Integer resposta = 0;
-        resposta = JOptionPane.showConfirmDialog(null, "Deseja terminar seu expediente?");
+        resposta = JOptionPane.showConfirmDialog(null, "Deseja tentar recuperar sua senha?");
         if (resposta == JOptionPane.YES_OPTION) {
             try {
                 abrirLink.AbrirGuiaRecuperacao();
@@ -191,7 +191,7 @@ public class Login extends javax.swing.JFrame {
                  CriandoArquivoTxt arq = new CriandoArquivoTxt();
 
 
-                 arq.escreverTexto(String.format("C:\\Users\\breno.galante\\Desktop\\ExitoTech\\Aplicacao-Java-Desenvolvimento\\exitoTech-jar\\src\\log-solcitacao-troca-de-senha-%s-%s", arq.getData(), arq.getHora()),
+                 arq.escreverTexto(String.format("C:\\Users\\lucas\\Desktop\\ExitoTech\\Aplicacao-Java-Desenvolvimento\\exitoTech-jar\\logs\\log-solcitacao-troca-de-senha-%s-%s.txt", arq.getData(), arq.getHora()),
                     String.format("log-solcitacao-troca-de-senha-%s-%s: Foi solicitada uma alteração de senha", arq.getData(), arq.getHora()));
                  
                  System.out.println("Solicitação de alteração de Senha");
