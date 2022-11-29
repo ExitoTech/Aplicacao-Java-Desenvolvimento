@@ -154,7 +154,13 @@ public class Login extends javax.swing.JFrame {
 
         SelectFromDatabase nomeEmpresas = new SelectFromDatabase();
         nomeEmpresas.validarConexao();
-        nomeEmpresas.validarLogin(usuario, senha);
+        try {
+            nomeEmpresas.validarLogin(usuario, senha);
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NexmoClientException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
     }//GEN-LAST:event_buttonEntrarActionPerformed

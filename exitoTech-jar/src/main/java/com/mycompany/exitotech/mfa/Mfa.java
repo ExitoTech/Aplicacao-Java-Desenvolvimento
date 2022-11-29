@@ -60,8 +60,8 @@ public class Mfa {
 //    }
     public String codeOne() throws IOException, NexmoClientException {
         NexmoClient client = new NexmoClient.Builder()
-                .apiKey("366f47eb")
-                .apiSecret("86TnTGgFEpcQMAKK")
+                .apiKey("c20609ce")
+                .apiSecret("LuQcivAIbSillBR8")
                 .build();
 
         VerifyClient verifyClient = client.getVerifyClient();
@@ -85,8 +85,8 @@ public class Mfa {
     public void validarToken(String codeApi, String userCode) throws IOException, NexmoClientException {
 
         NexmoClient client = new NexmoClient.Builder()
-                .apiKey("366f47eb")
-                .apiSecret("86TnTGgFEpcQMAKK")
+                .apiKey("c20609ce")
+                .apiSecret("LuQcivAIbSillBR8")
                 .build();
 
         VerifyClient verifyClient = client.getVerifyClient();

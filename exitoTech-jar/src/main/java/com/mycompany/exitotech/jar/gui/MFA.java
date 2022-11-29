@@ -22,8 +22,10 @@ public class MFA extends javax.swing.JFrame {
     /**
      * Creates new form MFA
      */
-    public MFA() {
+    public MFA() throws IOException, NexmoClientException {
         initComponents();
+        Mfa mf = new Mfa();
+        apiCode = mf.codeOne();
 
     }
 
@@ -166,7 +168,13 @@ public class MFA extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new MFA().setVisible(true);
+            try {
+                new MFA().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(MFA.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NexmoClientException ex) {
+                Logger.getLogger(MFA.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 

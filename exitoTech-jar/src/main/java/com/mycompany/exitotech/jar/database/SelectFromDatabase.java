@@ -7,6 +7,7 @@ import com.mycompany.exitotech.jar.gui.LoginMaquina;
 import com.mycompany.exitotech.jar.gui.MFA;
 import com.mycompany.exitotech.log.CriandoArquivoTxt;
 import com.mycompany.exitotech.slack.app.SlackApp;
+import com.nexmo.client.NexmoClientException;
 import java.io.IOException;
 import java.sql.Statement;
 import java.sql.SQLException;
@@ -46,7 +47,7 @@ public class SelectFromDatabase {
         }
     }
 
-    public void validarLogin(String email, String senha) {
+    public void validarLogin(String email, String senha) throws IOException, NexmoClientException {
         ConexaoDAO connection = new ConexaoDAO();
         connection.conexaoMysql();
         JdbcTemplate con = connection.getConnection();
